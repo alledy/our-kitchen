@@ -1,0 +1,4 @@
+Django==2.2.7
+django-bootstrap-themes==3.3.6
+pytz==2019.3
+sqlparse==0.3.0
