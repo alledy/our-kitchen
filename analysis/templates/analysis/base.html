@@ -1,0 +1,72 @@
+{% load static %}
+{% load bootstrap4 %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="icon" type="image/png" sizes="16x16" href="{% static 'articles/favicon/favicon-16x16.png' %}">
+    <title>My_Blog</title>
+</head>
+<body>
+    <div class="container">
+        <!-- {% if user.is_authenticated %}
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+            <a class="navbar-brand" href="{% url 'articles:index' %}">Welcome {{ user.username }}</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+                <div class="navbar-nav">        
+                <form action="{% url 'accounts:logout' %}" method="POST" style='display:inline'>
+                    {% csrf_token %}
+                    <input class='nav-item nav-link border-0 bg-transparent' type="submit" value="/ 로그아웃">
+                </form>
+                <form action="{% url 'accounts:quit' %}" method='POST' style='display:inline'>
+                    {% csrf_token %}
+                    <input class='nav-item nav-link border-0 bg-transparent' type="submit" value="/ 회원탈퇴">
+                </form>   
+                </div>
+            </div>
+        </nav>
+        {% else %}
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+            <a class="navbar-brand" href="{% url 'articles:index' %}">Welcome Juan's Blog</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+                <div class="navbar-nav">        
+                <a class="nav-item nav-link" href="{% url 'accounts:signup' %}">/ 회원가입</a>
+                <a class="nav-item nav-link" href="{% url 'accounts:login' %}">/ 로그인</a>        
+                </div>
+            </div>
+        </nav>
+        {% endif %} -->
+        {% if user.is_authenticated %}
+        <h1>Hello! {{ user.username }}!</h1>
+        <a href="{% url 'accounts:edit' %}"><button class='btn btn-success btn-sm'>회원정보 수정</button></a>
+        <a href="{% url 'accounts:change_password' %}"><button class='btn btn-success btn-sm'>비밀번호 변경</button></a>
+        <form action="{% url 'accounts:logout' %}" method="POST" style='display:inline'>
+            {% csrf_token %}
+            <button class='btn btn-success btn-sm'>로그아웃</button>
+        </form>
+        <form action="{% url 'accounts:quit' %}" method='POST' style='display:inline'>
+            {% csrf_token %}
+            <button class='btn btn-secondary btn-sm'>회원탈퇴</button>
+        </form>
+        {% else %}
+        <h1>Hello! Stranger~!</h1>
+        <a href="{% url 'accounts:signup' %}"><button class='btn btn-success btn-sm'>회원가입</button></a>
+        <a href="{% url 'accounts:login' %}"><button class='btn btn-success btn-sm'>로그인</button></a>
+        {% endif %}
+        {% block body %}        
+        {% endblock %}
+    </div>
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+</body>
+</html>
