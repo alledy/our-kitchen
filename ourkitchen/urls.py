@@ -14,8 +14,12 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path
+from django.urls import path, include
+from chatbot import views
 
 urlpatterns = [
+    path('chat/',views.chat),
+    path('webhook/',views.webhook, name='webhook'),
+    path('home/',views.home, name='home'),
     path('admin/', admin.site.urls),
 ]
