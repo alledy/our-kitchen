@@ -33,6 +33,7 @@ INSTALLED_APPS = [
     'compressor',
     # Add reservation app
     'reservation',
+    'bootstrap4',
 ]
 
 MIDDLEWARE = [

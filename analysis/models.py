@@ -4,7 +4,8 @@ class Kitchen_info(models.Model):
     kitchen_name = models.CharField(max_length=20)
     lat = models.FloatField(blank=False)
     lng = models.FloatField(blank=False)
-    image = models.ImageField(blank=True)
+    image = models.CharField(max_length=20)
+    created_at = models.DateTimeField(auto_now_add=True)
     capacity = models.IntegerField()
 
 # class User(models.Model):
@@ -16,6 +17,9 @@ class Reservation_time(models.Model):
     start_date = models.DateField()
     last_date = models.DateField()
     time = models.IntegerField()
+
+class User(models.Model):
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
 
     
 

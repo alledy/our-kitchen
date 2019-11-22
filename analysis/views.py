@@ -4,23 +4,40 @@ import urllib.request
 import requests
 import pandas as pd
 import numpy as np
+import matplotlib.pyplot as plt
 # import mathplot
 import folium
+from folium import plugins
 from decouple import config
+from django.views.decorators.http import require_POST
+from django.contrib.auth.decorators import login_required
 
 token = config('TOKEN')
 
-def kitchen_map(request,lat,lng):
-    map = folium.Map(location=[37.5502, 126.982], zoom_start=11)
+def kitchen_map(request):
+    kitchens = Kitchen_info.objects.all()
+    map = folium.Map(location=[37.5502, 126.982], zoom_start=11)   
+    for kitchen in kitchens:
+        name = kitchen.kitchen_name
+        folium.Marker([kitchen.lat, kitchen.lng], popup=name).add_to(map)
+    map.save(outfile='analysis/templates/analysis/icon.html') 
+    return render(request, 'analysis/test.html', {'map':map})
 
-#     for n in location_raw.index:
-#         folium.Marker([location_raw['lat'][n], 
-#         location_raw['lng'][n]], popup= location_raw['kitchen_name'][n]], icon = folium.icon(color ='red')).add_to(map)
+# def create_info(request):
+#     if request.method == 'POST':
+#         Form = Kitchen_infoForm(request.POST, request.FILES)
+#         if Form.is_valid():
+#             kitchen = form.save(commit=False)
+#             kitchen.save()
+#             return redirect('analysis:detail', Kitchen_info.id)
 
-def radius(request,lat_info,lng_info):
-    token = config('TOKEN') 
-    url = f'http://apis.data.go.kr/B553077/api/open/sdsc/storeListInRadius?radius={choosen_radius}&cy={long_info}&cx={lat_info}&ServiceKey={token}'
-    response = requests.post(url).json()
-    response.get()
-
+def radius(request,lng,lat):
+    token = config('TOKEN')
+    url = f'http://apis.data.go.kr/B553077/api/open/sdsc/storeListInRadius?radius=2000&cy={lng}&cx={lat}&ServiceKey={token}'
+    response = requests.post(url).json()["indsSclsNm"]
+    info = response.get()
+    plt.pie(info)
+    
+    
+    
 # def Rectangle_analysis(request,lat,lng)
