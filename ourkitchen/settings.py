@@ -104,7 +104,7 @@ AUTH_PASSWORD_VALIDATORS = [
 # ngrok이 생성한 url로 로컬 서버를 실행시키도록 함
 ALLOWED_HOSTS = [
 
-        '509dd4aa.ngrok.io',
+        '4b30d07b.ngrok.io',
 
         '127.0.0.1'
  ]

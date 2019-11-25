@@ -18,7 +18,12 @@ def webhook(request):
     # get action from json
     action = req.get('queryResult').get('action')
     # return a fulfillment message
-    fulfillmentText = {'fulfillmentText': 'OurKitchen 챗봇의 default 응답'}
+    if action == 'get_consulting':
+        #if req.get('queryResult').get('parameters').get('KITCHEN_name') :
+        fulfillmentText = {'fulfillmentText': "키친명이있네요"}
+
+   # if action == 'get_kitchen':
+    #    fulfillmentText = {'fulfillmentText': req.get('queryResult').get('parameters').get('KITCHEN_name')}
     # return response
     return JsonResponse(fulfillmentText, safe=False)
 
