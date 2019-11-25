@@ -43,7 +43,13 @@
         <!-- 메뉴는 기본 템플릿에 포함시켜 계속 상속 -->
         {% include "menu.html" %}
         <!-- 컨텐트 블록 -->
-        {% block content %}{% endblock %}
+        <div id="main">
+            <div class="inner">
+                {% block content_header %}{% endblock %}
+                {% block content_content %}{% endblock %}
+            </div>
+        </div>
+
         <!-- 푸터 블록 -->
         {% block footer %}{% endblock footer %}
 
