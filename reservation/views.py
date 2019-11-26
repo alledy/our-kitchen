@@ -1,9 +1,11 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.views import generic
 from . import mixins
+from .forms import ReservationForm
 from .models import Kitchen_info, Reservation
 import folium
 from folium.plugins import MarkerCluster
+import datetime
 
 
 def index(request):
@@ -19,8 +21,8 @@ def index(request):
 
     for i in kitchens:
         html = folium.Html('<div style="font-family: Nanum Gothic"><h1>' + i.kitchen_name +
-                           '</h1><br>주소: <br>사진</div>', script=True)
-        iframe = folium.IFrame(html=html, width=300, height=300)
+                           '</h1>', script=True)
+        iframe = folium.IFrame(html=html, width=200, height=100)
         popup = folium.Popup(iframe, parse_html=True)
         tooltip = i.kitchen_name
         folium.Marker(
@@ -39,10 +41,18 @@ def index(request):
 #     return render(request, 'reservation/detail.html', {'kitchen': kitchen})
 
 
-class MonthCalendar(mixins.MonthWithScheduleMixin, generic.TemplateView):
-    template_name = 'reservation/calendar.html'
+class MonthCalendar(mixins.MonthWithScheduleMixin, generic.CreateView):
+    template_name = 'reservation/reservation.html'
     model = Reservation
     date_field = 'start_date'
+    form_class = ReservationForm
+
+    # # 폼클래스에 url parameter 넘기기 위해 사용
+    # def get_form_kwargs(self):
+    #     kwargs = super(MonthCalendar, self).get_form_kwargs()
+    #     # update the kwargs for the form init method with yours
+    #     kwargs.update(self.kwargs)  # self.kwargs contains all url conf params
+    #     return kwargs
 
     def get_context_data(self, **kwargs):
         kitchen_pk = self.kwargs['kitchen_pk']
@@ -54,3 +64,22 @@ class MonthCalendar(mixins.MonthWithScheduleMixin, generic.TemplateView):
         calendar_context.update({'kitchen': kitchen})
         context.update(calendar_context)
         return context
+
+    def form_valid(self, form):
+        kitchen_pk = self.kwargs['kitchen_pk']
+        # url param이 없는 경우도 존재하므로 get으로 값을 가져와야 함
+        # 안 그러면 에러
+        year = self.kwargs.get('year')
+        month = self.kwargs.get('month')
+        if year and month:
+            pass
+        else:
+            date = datetime.date.today()
+            year = date.year
+            month = date.month
+
+        kitchen = Kitchen_info.objects.get(pk=kitchen_pk)
+        reservation = form.save(commit=False)
+        reservation.kitchen = kitchen
+        reservation.save()
+        return redirect('reserve:reservation', kitchen_pk=kitchen_pk, year=year, month=month)

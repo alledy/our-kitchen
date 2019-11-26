@@ -63,17 +63,17 @@ class Reservation(models.Model):
         if self.end_date <= self.start_date:
             raise ValidationError("끝나는 날짜가 시작 날짜보다 커야 합니다")
 
-        if self.kitchen.capacity == 0:
-            raise ValidationError("현재 해당 지점의 예약이 모두 차있어 예약이 불가합니다.")
+        # if self.kitchen.capacity == 0:
+        #     raise ValidationError("현재 해당 지점의 예약이 모두 차있어 예약이 불가합니다.")
 
         diff = self.end_date - self.start_date
         if diff.days < 90:
             raise ValidationError("예약 기간은 90일 이상이어야 합니다.")
 
-        events = Reservation.objects.all()
-        if events.exists():
-            for event in events:
-                if self.check_overlap_time(event.time, self.time):
-                    if self.check_overlap_date(event.start_date, event.end_date, self.start_date, self.end_date):
-                        raise ValidationError("다른 예약과 시간이 겹칩니다: " + str(
-                            event.start_date) + ' - ' + str(event.end_date) + ' ' + str(event.get_time_display()))
+        # events = Reservation.objects.all()
+        # if events.exists():
+        #     for event in events:
+        #         if self.check_overlap_time(event.time, self.time):
+        #             if self.check_overlap_date(event.start_date, event.end_date, self.start_date, self.end_date):
+        #                 raise ValidationError("다른 예약과 시간이 겹칩니다: " + str(
+        #                     event.start_date) + ' - ' + str(event.end_date) + ' ' + str(event.get_time_display()))

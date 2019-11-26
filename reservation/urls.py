@@ -6,7 +6,7 @@ app_name = 'reserve'
 
 urlpatterns = [
     path('', views.index, name="index"),
-    path('<int:kitchen_pk>/', views.MonthCalendar.as_view(), name="calendar"),
+    path('<int:kitchen_pk>/', views.MonthCalendar.as_view(), name="reservation"),
     path('<int:kitchen_pk>/<int:year>/<int:month>/',
-         views.MonthCalendar.as_view(), name="calendar"),
+         views.MonthCalendar.as_view(), name="reservation"),
 ]

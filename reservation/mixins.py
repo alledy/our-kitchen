@@ -58,6 +58,7 @@ class MonthCalendarMixin(BaseCalendarMixin):
     def get_month_calendar(self):
         """먼슬리 캘린더 구축에 필요한 dic 리턴"""
         self.setup_calendar()
+        kitchen_pk = self.kwargs.get('kitchen_pk')
         current_month = self.get_current_month()
         calendar_data = {
             'now': datetime.date.today(),
@@ -66,6 +67,7 @@ class MonthCalendarMixin(BaseCalendarMixin):
             'month_previous': self.get_previous_month(current_month),
             'month_next': self.get_next_month(current_month),
             'week_names': self.get_week_names(),
+            'kitchen_pk': kitchen_pk,
         }
         return calendar_data
 

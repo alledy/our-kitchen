@@ -1,0 +1,54 @@
+{% extends "index.html" %}
+{% load static %}
+<!DOCTYPE html>
+<style>
+    div.form-group label.col-md-4 {
+        justify-content: flex-end;
+    }
+</style>
+
+<body>
+    {% block content_title %}Reservation{% endblock %}
+    {% block content_explain %}{{kitchen.kitchen_name}}{% endblock %}
+    <!-- content 내용 -->
+    {% block content_content %}
+    <div class="container-fluid">
+        <div class="row-fluid">
+
+            <!-- 먼슬리 캘린더 -->
+            {% include "reservation/calendar.html" %}
+
+        </div>
+
+    </div>
+    {% for schedule in schedules %}
+    {{schedule.start_time}}
+    {% endfor %}
+    {% endblock content_content %}
+    <!-- content 내용 끝 -->
+    {% block footer %}
+    <section>
+        <div class="row">
+            <div class="col-md-6">
+                <form action="" method="POST">
+                    {{ form.non_field_errors }}
+                    {% for field in form %}
+                    <div class="form-group row">
+                        <label for="{{ field.id_for_label }}" class="col col-form-label">{{ field.label_tag }}</label>
+                        <div class="col">
+                            {{ field }}
+                            {{ field.errors }}
+                        </div>
+                    </div>
+                    {% endfor %}
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-secondary btn-block">예약</button>
+                </form>
+            </div>
+        </div>
+
+    </section>
+    {% endblock footer %}
+</body>
+
+</html>
