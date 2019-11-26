@@ -17,8 +17,8 @@
 
         <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
             {% for kitchen in kitchens %}
-            <li><a class="dropdown-item"
-                    href="{% url 'reserve:kitchen_detail' kitchen.pk %}">{{kitchen.kitchen_name}}</a></li>
+            <li><a class="dropdown-item" href="{% url 'reserve:calendar' kitchen.pk %}">{{kitchen.kitchen_name}}</a>
+            </li>
             {% endfor %}
         </ul>
     </div>

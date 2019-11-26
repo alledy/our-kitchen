@@ -1,7 +1,8 @@
 from django.shortcuts import render
+from django.views import generic
+from . import mixins
 from .models import Kitchen_info, Reservation
 import folium
-import branca
 from folium.plugins import MarkerCluster
 
 
@@ -33,6 +34,23 @@ def index(request):
     return render(request, 'reservation/index.html', {'map': m._repr_html_, 'kitchens': kitchens})
 
 
-def kitchen_detail(request, kitchen_pk):
-    kitchen = Kitchen_info.objects.get(pk=kitchen_pk)
-    return render(request, 'reservation/kitchen_detail.html', {'kitchen': kitchen})
+# def detail(request, kitchen_pk):
+#     kitchen = Kitchen_info.objects.get(pk=kitchen_pk)
+#     return render(request, 'reservation/detail.html', {'kitchen': kitchen})
+
+
+class MonthCalendar(mixins.MonthWithScheduleMixin, generic.TemplateView):
+    template_name = 'reservation/calendar.html'
+    model = Reservation
+    date_field = 'start_date'
+
+    def get_context_data(self, **kwargs):
+        kitchen_pk = self.kwargs['kitchen_pk']
+        kitchen = Kitchen_info.objects.get(pk=kitchen_pk)
+
+        context = super().get_context_data(**kwargs)
+        calendar_context = self.get_month_calendar()
+        # 이 부분 고치기
+        calendar_context.update({'kitchen': kitchen})
+        context.update(calendar_context)
+        return context
