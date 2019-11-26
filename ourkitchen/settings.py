@@ -28,7 +28,9 @@ INSTALLED_APPS = [
     # Add bootstrap, bootswatch
     'bootstrap_themes',
     # Add compressor which compress css and js files
-    'compressor'
+    'compressor',
+    # Add reservation app
+    'reservation',
 ]
 
 MIDDLEWARE = [

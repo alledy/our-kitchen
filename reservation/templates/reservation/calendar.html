@@ -1,0 +1,54 @@
+<style>
+    table {
+        table-layout: fixed;
+    }
+
+    td>div {
+        height: 100px;
+        overflow: auto;
+        white-space: nowrap;
+    }
+</style>
+<a href="{% url 'reserve:reservation' kitchen_pk month_previous.year month_previous.month %}">[PREVIOUS]</a>
+{{ month_current | date:"Y년m월" }}
+<a href="{% url 'reserve:reservation' kitchen_pk month_next.year month_next.month %}">[NEXT]</a>
+<table class="table">
+    <thead>
+        <tr>
+            {% for w in week_names %}
+            <th>{{ w }}</th>
+            {% endfor %}
+        </tr>
+    </thead>
+    <tbody>
+        <!-- week_day_schedules는 해당 주의 요일들을 dic에 저장한 형태. {1: [], 2:[] ...} -->
+        {% for week_day_schedules in month_day_schedules %}
+        <tr>
+            {% for day, schedules in week_day_schedules.items %}
+            {% if now == day %}
+            <td class="table-success">
+                {% else %}
+            <td>
+                {% endif %}
+
+                <div>
+                    {% if month_current.month != day.month %}
+                    {{ day | date:"m/d" }}
+                    {% else %}
+                    {{ day.day }}
+                    {% endif %}
+
+                    {% for schedule in schedules %}
+                    <p>
+                        {{ schedule.start_date | date:"y.m.d" }} -
+                        {{ schedule.end_date | date:"y.m.d" }}
+                        <br>
+                        {{ schedule.get_time_display }}</p>
+                    {% endfor %}
+                </div>
+            </td>
+            {% endfor %}
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>

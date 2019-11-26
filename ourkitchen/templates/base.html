@@ -43,9 +43,19 @@
         <!-- 메뉴는 기본 템플릿에 포함시켜 계속 상속 -->
         {% include "menu.html" %}
         <!-- 컨텐트 블록 -->
-        {% block content %}{% endblock %}
+        <div id="main">
+            <div class="inner">
+                {% block content_header %}{% endblock %}
+                {% block content_content %}{% endblock %}
+            </div>
+        </div>
+
         <!-- 푸터 블록 -->
-        {% block footer %}{% endblock footer %}
+        <footer id="footer">
+            <div class="inner">
+                {% block footer %}{% endblock footer %}
+            </div>
+        </footer>
 
         <!-- scripts -->
         <!-- 자바스크립트 cdn -->
@@ -54,7 +64,16 @@
         <script>
             window.jQuery || document.write('<script src="{{ STATIC_URL }}js/libs/jquery-2.1.1.min.js"><\/script>')
         </script>
+        <!-- Popper.js -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js"
+            integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut" crossorigin="anonymous">
+        </script>
+        <!-- Twitter Bootstrap -->
         <script src="//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.2.0/js/bootstrap.min.js"></script>
+        <!-- Bootstrap4 -->
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js"
+            integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k" crossorigin="anonymous">
+        </script>
         {% endblock cdn_js %}
 
         <!-- scripts concatenated and minified via django-compressor -->

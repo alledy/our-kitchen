@@ -3458,3 +3458,15 @@ body.is-menu-visible #menu .close {
 	}
 
 }
+
+/* Table */
+
+table {
+	table-layout: fixed !important;
+}
+
+td>div {
+	height: 100px;
+	overflow: hidden;
+	white-space: nowrap;
+}
