@@ -18,7 +18,8 @@ from django.urls import path, include
 from chatbot import views
 
 urlpatterns = [
-    path('chat/',views.chat),
+    #path('mypage/'.views.mypage, name='mypage'),
+    path('chat/',views.chat, name='chat'),
     path('webhook/',views.webhook, name='webhook'),
     path('home/',views.home, name='home'),
     path('admin/', admin.site.urls),

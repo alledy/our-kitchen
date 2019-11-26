@@ -185,3 +185,13 @@ venv.bak/
 pip-selfcheck.json
 
 # End of https://www.gitignore.io/api/venv,python,django
+
+
+# Text backup Files
+*.bak
+
+# Database
+*.sqlite3
+
+# 환경설정 관련 파일
+.env
