@@ -1,0 +1,18 @@
+{% extends 'analysis/base.html' %}
+{% block body %}
+{% load bootstrap4 %}
+{% if request.resolver_match.url_name == 'signup' %}
+<h1 class='text-center'>회원가입</h1>
+{% elif request.resolver_match.url_name == 'login' %}
+<h1 class='text-center'>로그인</h1>
+{% elif request.resolver_match.url_name == 'edit' %}
+<h1 class='text-center'>회원정보 수정</h1>
+{% else %}
+<h1 class='text-center'>비밀번호 변경</h1>
+{% endif %}
+<form action="" method="POST">
+    {% csrf_token %}
+    {% bootstrap_form form layout='horizontal' %}
+    {% bootstrap_button "등록" button_class='btn btn-primary btn-sm' %}
+</form>
+{% endblock %}

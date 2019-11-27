@@ -1,0 +1,253 @@
+{% load static %}
+<!DOCTYPE html>
+
+<head>
+    <script>
+        L_NO_TOUCH = false;
+        L_DISABLE_3D = false;
+    </script>
+
+    <script src="https://cdn.jsdelivr.net/npm/leaflet@1.5.1/dist/leaflet.js"></script>
+    <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.js">
+    </script>
+
+    {% block cdn_css %}
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.2.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet@1.5.1/dist/leaflet.css" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" />
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.css" />
+    <link rel="stylesheet"
+        href="https://rawcdn.githack.com/python-visualization/folium/master/folium/templates/leaflet.awesome.rotate.css" />
+    {% endblock cdn_css %}
+
+    {% block css %}
+    <link rel="stylesheet" href="{% static 'css/main.css' %}">
+    <link rel="stylesheet" href="{% static 'css/noscript.css' %}">
+
+    {% endblock css %}
+
+    <style>
+        .inner {
+            width: 100%;
+            max-width: 68em;
+            margin: 0 auto;
+            padding: 0 2.5em;
+        }
+
+        html,
+        body {}
+
+        .map-box {
+            position: relative;
+            width: 100%;
+            height: 500px;
+            margin: 0 auto;
+            background: pink;
+        }
+
+        #map {
+            top: 30;
+            bottom: 30;
+            right: 30;
+            left: 30;
+        }
+
+        #map_analysis {
+            position: relative;
+            width: 100.0%;
+            height: 100.0%;
+            left: 0.0%;
+            top: 0.0%;
+
+        }
+    </style>
+</head>
+
+<body>
+    {% block header %}
+    <!-- Header -->
+    <header id="header">
+        <div class="inner">
+
+            <!-- Logo -->
+            <a href="{% url 'index' %}" class="logo">
+                <span class="symbol"><img src="{% static 'images/logo.svg' %}" alt="" /></span><span class="title">our
+                    kitchen</span>
+            </a>
+
+            <!-- Nav -->
+            <nav>
+                <ul>
+                    <li><a href="#menu">Menu</a></li>
+                </ul>
+            </nav>
+
+        </div>
+    </header>
+    {% endblock %}
+    <div id="main">
+        <div class="inner">
+            <!-- Main -->
+            {% block content_header %}
+            <header>
+                <!-- <h1>공유주방 예약·분석 플랫폼</h1> -->
+                <h1>{% block content_title %}Analysis{% endblock %}</h1>
+                <p>{% block content_explain %}공유 주방의 상권을 분석해보세요{% endblock %}</p>
+            </header>
+            {% endblock %}
+
+            <div class="map-box">
+                <div class="folium-map" id="map_analysis"></div>
+            </div>
+</body>
+<script type="text/javascript">
+    var result2 = "{{ result2 }}"
+    var lat = "{{ lat }}"
+    var lng = "{{ lng }}"
+    var map_analysis = L.map(
+        "map_analysis", {
+            center: [lat, lng],
+            crs: L.CRS.EPSG3857,
+            zoom: 16,
+            zoomControl: true,
+            preferCanvas: false,
+        }
+    );
+    var tile_layer_a8226ee1b87a449d989db1430247f5c0 = L.tileLayer(
+        "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+            "attribution": "Data by \u0026copy; \u003ca href=\"http://openstreetmap.org\"\u003eOpenStreetMap\u003c/a\u003e, under \u003ca href=\"http://www.openstreetmap.org/copyright\"\u003eODbL\u003c/a\u003e.",
+            "detectRetina": false,
+            "maxNativeZoom": 18,
+            "maxZoom": 18,
+            "minZoom": 0,
+            "noWrap": false,
+            "opacity": 1,
+            "subdomains": "abc",
+            "tms": false
+        }
+    ).addTo(map_analysis);
+
+
+    var storeId = "{{ store_id }}".replace(/&#39;/gi, '')
+    var storeCode = "{{ store_code }}".replace(/&#39;/gi, '"')
+    var storeLat = "{{ store_lat }}".replace(/&#39;/gi, '')
+    var storeLon = "{{ store_lon }}".replace(/&#39;/gi, '')
+
+    storeId = JSON.parse(storeId)
+    storeCode = JSON.parse(storeCode)
+    storeLat = JSON.parse(storeLat)
+    storeLon = JSON.parse(storeLon)
+    // console.log(storeLon)
+    // console.log(typeof(storeLon))
+    console.log(storeCode)
+    // console.log(storeId, storeLat, storeLon)
+
+    for (var i = 0; i < storeId.length; i++) {
+        console.log(storeLat[i], storeLon[i], storeCode[i])
+        var marker_store_id = L.marker([storeLat[i], storeLon[i]], {}).addTo(map_analysis);
+        var popup_store_id = L.popup({
+            "maxWidth": "100%"
+        });
+        var html_store_id = $(`<div id='${storeId[i]}' style="width: 100.0%; height: 100.0%;">${storeCode[i]}</div>`)[
+            0];
+        popup_store_id.setContent(html_store_id);
+        marker_store_id.bindPopup(popup_store_id);
+    }
+</script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.4.0/Chart.min.js"></script>
+<div style="width:800px">
+    <canvas id="myChart"></canvas>
+</div>
+
+<script>
+    // 우선 컨텍스트를 가져옵니다. 
+    var ctx = document.getElementById("myChart").getContext('2d');
+    /*
+    - Chart를 생성하면서, 
+    - ctx를 첫번째 argument로 넘겨주고, 
+    - 두번째 argument로 그림을 그릴때 필요한 요소들을 모두 넘겨줍니다. 
+    */
+    var myChart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: ["Red", "Blue", "Yellow", "Green", "Purple", "Orange"],
+            datasets: [{
+                label: '# of Votes',
+                data: [12, 19, 3, 5, 2, 3],
+                backgroundColor: [
+                    'rgba(255, 99, 132, 0.2)',
+                    'rgba(54, 162, 235, 0.2)',
+                    'rgba(255, 206, 86, 0.2)',
+                    'rgba(75, 192, 192, 0.2)',
+                    'rgba(153, 102, 255, 0.2)',
+                    'rgba(255, 159, 64, 0.2)'
+                ],
+                borderColor: [
+                    'rgba(255,99,132,1)',
+                    'rgba(54, 162, 235, 1)',
+                    'rgba(255, 206, 86, 1)',
+                    'rgba(75, 192, 192, 1)',
+                    'rgba(153, 102, 255, 1)',
+                    'rgba(255, 159, 64, 1)'
+                ],
+                borderWidth: 1
+            }]
+        },
+        options: {
+            maintainAspectRatio: true, // default value. false일 경우 포함된 div의 크기에 맞춰서 그려짐.
+            scales: {
+                yAxes: [{
+                    ticks: {
+                        beginAtZero: true
+                    }
+                }]
+            }
+        }
+    });
+</script>
+<script>
+    window.onload = function () {
+
+        var chart = new CanvasJS.Chart("chartContainer", {
+            animationEnabled: true,
+            title: {
+                text: "Desktop Search Engine Market Share - 2016"
+            },
+            data: [{
+                type: "pie",
+                startAngle: 240,
+                yValueFormatString: "##0.00\"%\"",
+                indexLabel: "{label} {y}",
+                dataPoints: [{
+                        y: 79.45,
+                        label: "Google"
+                    },
+                    {
+                        y: 7.31,
+                        label: "Bing"
+                    },
+                    {
+                        y: 7.06,
+                        label: "Baidu"
+                    },
+                    {
+                        y: 4.91,
+                        label: "Yahoo"
+                    },
+                    {
+                        y: 1.26,
+                        label: "Others"
+                    }
+                ]
+            }]
+        });
+        chart.render();
+
+    }
+</script>

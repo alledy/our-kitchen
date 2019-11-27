@@ -1,0 +1,33 @@
+{% extends "index.html" %}
+{% load static %}
+<!DOCTYPE html>
+
+<body>
+    {% block content_title %}Reservation{% endblock %}
+    {% block content_explain %}공유 주방을 예약해보세요 :){% endblock %}
+    <!-- content 내용 -->
+    {% block content_content %}
+    <!-- 예약 드롭다운 -->
+    <div class="btn-group">
+        <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown"
+            aria-haspopup="true" aria-expanded="false">
+            예약하기
+            <span class="caret"></span>
+        </a>
+
+        <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+            {% for kitchen in kitchens %}
+            <li><a class="dropdown-item" href="{% url 'reserve:reservation' kitchen.pk %}">{{kitchen.kitchen_name}}</a>
+            </li>
+            {% endfor %}
+        </ul>
+    </div>
+    <!-- 예약 드롭다운 끝 -->
+    {% include "reservation/map.html" %}
+    {% endblock content_content %}
+    <!-- content 내용 끝 -->
+    {% block footer %}
+    {% endblock footer %}
+</body>
+
+</html>
