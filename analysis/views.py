@@ -57,36 +57,14 @@ def radius(request, lat, lng):
     # start_up = Start_up.objects.all()
     # start_up = Start_up.objects.filter(signgunm = area_name)
     start_up = Start_up.objects.get(signgunm = area_name)
-    print(start_up)
-    if start_up:
-       #start_info = cur.execute(f"select * from analysis_start_up where signgunm='{area_name}';")
-        start_info = start_up
-        print(start_up.close)
-        #막대그래프(서울 평균과 지역 데이터 비교)
-        label = ['위험도', '평균 폐업기간(년)', '점포 유지기간']
-        
-        plt.rcParams["font.family"] = 'Malgun Gothic'
-        plt.rcParams["font.size"] = 12
-        plt.rcParams["figure.figsize"] = (12, 8)
-
-       
-
-        x = numpy.arange(len(label))
-
-        plt.bar(x-0.0, start_info.close, label='폐업신고율(%)', width=0.2, color='blue')
-        plt.bar(x+0.2, start_info.remain_term, label='평균 폐업기간(년)', width=0.2, color='red')
-        plt.bar(x+0.2, start_info.plma, label='평균 매장 증감율(년)', width=0.2, color='red')
-        plt.xticks(x, label)
-        plt.legend()
-        plt.ylim(0, 5)
-        plt.title(f'{area_name} + {Start_up.danger}')
-        plt.savefig('analysis/ex_barhplot.png', format='png', dpi=300)
-        fig = plt.figure()
-        mpld3.save_html(fig,"analysis/bar.html") 
-    # else:
-    #     result = '해당 지역 정보가 없습니다.'
-    #     return redirect('analysis:kitchen_map')
-    return render(request, 'analysis/radius.html',{'lat':lat,'lng':lng,'store_id':store_id,'store_code':store_code,'store_lon':store_lon,'store_lat':store_lat, 'start_info.close':start_info.close, 'start_info.remain_term':start_info.remain_term, 'start_info.plma':start_info.plma })
+    close = start_up.close
+    remain_term = start_up.remain_term 
+    plma = start_up.plma
+    danger = start_up.danger
+    else:
+        result = '해당 지역 정보가 없습니다.'
+        return redirect('analysis:kitchen_map')
+    return render(request, 'analysis/radius.html',{'danger':danger,'lat':lat,'lng':lng,'store_id':store_id,'store_code':store_code,'store_lon':store_lon,'store_lat':store_lat, 'close':close, 'remain_term':remain_term, 'plma':plma })
    
 # def stick(request, lat, lng):
 #     token = config('TOKEN')
