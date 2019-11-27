@@ -1,0 +1,40 @@
+
+{% extends "index.html" %}
+{% load static %}
+<!DOCTYPE html>
+
+<body>
+    {% block content_title %}My Page{% endblock %}
+    {% block content_explain %}상담을 요청 내역을 확인할 수 있습니다 :){% endblock %}
+    <!-- content 내용 -->
+    {% block content_content %}
+    <table class="table">
+        <thead>
+            <tr>
+                <th>No</th>
+                <th>User</th>
+                <th>Kitchen</th>
+                <th>상담일자</th>
+                <th>진행상황</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for consulting in consultings %}
+            <tr>
+                <td scope="row">{{ consulting.id }}</td>
+                <td>GUEST</td>
+                <td>{{ consulting.kitchen }}</td>
+                <td>{{ consulting.datetime }}</td>
+                <td><span style='color:red;'>신청 미승인</span></td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    {% endblock content_content %}
+    <!-- content 내용 끝 -->
+    {% block footer %}
+    {% endblock footer %}
+</body>
+
+</html>
