@@ -1,0 +1,17 @@
+{% extends "index.html" %}
+{% load static %}
+<!DOCTYPE html>
+
+<body>
+    {% block content_title %}Analysis{% endblock %}
+    {% block content_explain %}공유 주방의 상권을 분석해보세요{% endblock %}
+    <!-- content 내용 -->
+    {% block content_content %}
+    {% include "analysis/test.html" %}
+    {% endblock content_content %}
+    <!-- content 내용 끝 -->
+    {% block footer %}
+    {% endblock footer %}
+</body>
+
+</html>
