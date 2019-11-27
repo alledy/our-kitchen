@@ -34,7 +34,20 @@ def kitchen_map(request):
     return render(request, 'analysis/test.html', {'name': name, "lng": lng, "lat": lat})
 
 
+def kitchen_map2(request):
+    kitchens = Kitchen_info.objects.all()
+    name = list()
+    lng = list()
+    lat = list()
+    for kitchen in kitchens:
+        name.append(kitchen.kitchen_name)
+        lng.append(kitchen.lng)
+        lat.append(kitchen.lat)
+    return render(request, 'analysis/test1.html', {'name': name, "lng": lng, "lat": lat})
+
 # 맵 생성
+
+
 def radius(request, lat, lng):
     token = config('TOKEN')
     url = f'http://apis.data.go.kr/B553077/api/open/sdsc/storeListInRadius?radius=500&cx={lng}&cy={lat}&ServiceKey={token}&type=json&indsLclsCd=Q'
