@@ -1,0 +1,113 @@
+{% load static %}
+<!DOCTYPE html>
+
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+
+    <script>
+        L_NO_TOUCH = false;
+        L_DISABLE_3D = false;
+    </script>
+
+    <script src="https://cdn.jsdelivr.net/npm/leaflet@1.5.1/dist/leaflet.js"></script>
+    <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.js">
+    </script>
+
+    {% block cdn_css %}
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.2.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet@1.5.1/dist/leaflet.css" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" />
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.css" />
+    <link rel="stylesheet"
+        href="https://rawcdn.githack.com/python-visualization/folium/master/folium/templates/leaflet.awesome.rotate.css" />
+    {% endblock cdn_css %}
+
+</head>
+
+<body>
+    {% block content_content %}
+    <style>
+        html,
+        body {
+            width: 60%;
+            height: 60%;
+            margin: 0;
+            padding: 0;
+        }
+
+        #map {
+            top: 30;
+            bottom: 30;
+            right: 30;
+            left: 30;
+        }
+
+        #map_seoul {
+            position: relative;
+            width: 100.0%;
+            height: 100.0%;
+            left: 0.0%;
+            top: 0.0%;
+            margin-left: 300px;
+            margin-top: 300px;
+        }
+    </style>
+
+    <div class="folium-map" id="map_seoul"></div>
+
+    <script>
+        var map_seoul = L.map(
+            "map_seoul", {
+                center: [37.5502, 126.982],
+                crs: L.CRS.EPSG3857,
+                zoom: 11,
+                zoomControl: true,
+                preferCanvas: false,
+            }
+        );
+
+        var tile_layer_feef30a9ec504dbc97fdad2819aa31b6 = L.tileLayer(
+            "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+                "attribution": "Data by \u0026copy; \u003ca href=\"http://openstreetmap.org\"\u003eOpenStreetMap\u003c/a\u003e, under \u003ca href=\"http://www.openstreetmap.org/copyright\"\u003eODbL\u003c/a\u003e.",
+                "detectRetina": false,
+                "maxNativeZoom": 18,
+                "maxZoom": 18,
+                "minZoom": 0,
+                "noWrap": false,
+                "opacity": 1,
+                "subdomains": "abc",
+                "tms": false
+            }
+        ).addTo(map_seoul);
+
+        var storeName = "{{ name }}".replace(/&#39;/gi, '"')
+        console.log(storeName)
+        var storeLat = "{{ lat }}".replace(/&#39;/gi, '')
+        var storeLon = "{{ lng }}".replace(/&#39;/gi, '')
+
+
+        storeName = JSON.parse(storeName)
+        storeLat = JSON.parse(storeLat)
+        storeLon = JSON.parse(storeLon)
+        console.log(storeName)
+
+        for (var i = 0; i < storeName.length; i++) {
+            console.log(storeLat[i], storeLon[i], storeName[i])
+            var marker_store_id = L.marker([storeLat[i], storeLon[i]], {}).addTo(map_seoul);
+            var popup_store_id = L.popup({
+                "maxWidth": "100%"
+            });
+            var html_store_id = $(
+                `<div <div onclick="location.href='http://127.0.0.1:8000/analysis/${storeLat[i]}/${storeLon[i]}/'"  id='${storeName[i]}' style="width: 100.0%; height: 100.0%;">${storeName[i]}</div>`
+            )[0];
+            popup_store_id.setContent(html_store_id);
+            marker_store_id.bindPopup(popup_store_id);
+        }
+    </script>
+    {% endblock %}
+</body>

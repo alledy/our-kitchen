@@ -1,0 +1,17 @@
+{% extends 'analysis/base.html' %}
+{% load static %}
+
+{% block title %}EDIT{% endblock %}
+{% block body %}
+    <h1 class='text-center'>EDIT</h1>
+    
+    <form action="/analysis/{{ kitchen_info.id}}/update/" method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        제목: <input type="text" name="title" value="{{ article.title }}"> <br>
+        내용: <textarea name="content" id="" cols="30" rows="10">{{ article.content }}</textarea> <br>
+        이미지: <input type="file" name='image' accept="image/*">
+        <input type="submit">
+    </form>
+    <hr>
+    <a href="/articles/{{ article.pk }}/">[뒤로가기]</a>
+{% endblock %}

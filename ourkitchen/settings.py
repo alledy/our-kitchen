@@ -22,6 +22,8 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    'accounts',
+    'analysis',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -30,6 +32,13 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     # 챗봇
     'chatbot',
+    # Add bootstrap, bootswatch
+    'bootstrap_themes',
+    # Add compressor which compress css and js files
+    'compressor',
+    # Add reservation app
+    'reservation',
+    'bootstrap4',
 ]
 
 MIDDLEWARE = [
@@ -47,7 +56,7 @@ ROOT_URLCONF = 'ourkitchen.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [os.path.join(BASE_DIR, 'ourkitchen', 'templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -112,7 +121,7 @@ USE_I18N = True
 
 USE_L10N = True
 
-USE_TZ = True
+USE_TZ = False  
 
 
 # Static files (CSS, JavaScript, Images)
@@ -121,3 +130,11 @@ USE_TZ = True
 STATIC_URL = '/static/'
 
 django_heroku.settings(locals())
+
+STATIC_ROOT = os.path.join(BASE_DIR, 'ourkitchen', 'static')
+
+STATICFILES_FINDERS = (
+    'django.contrib.staticfiles.finders.FileSystemFinder',
+    'django.contrib.staticfiles.finders.AppDirectoriesFinder',
+    'compressor.finders.CompressorFinder',
+)
