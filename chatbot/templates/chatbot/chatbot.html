@@ -1,1 +1,21 @@
-<iframe width="350" height="430" allow="microphone;" src="https://console.dialogflow.com/api-client/demo/embedded/06e6da72-f96b-44fc-b494-28f12e9a4198"></iframe>
+{% extends "index.html" %}
+{% load static %}
+<!DOCTYPE html>
+
+<body>
+    {% block content_title %}Chatbot{% endblock %}
+    {% block content_explain %}챗봇에게 상담을 요청해보세요 :){% endblock %}
+    <!-- content 내용 -->
+    {% block content_content %}
+    <div>
+        <iframe width="600" height="500" allow="microphone;"
+            src="https://console.dialogflow.com/api-client/demo/embedded/06e6da72-f96b-44fc-b494-28f12e9a4198"></iframe>
+    </div>
+
+    {% endblock content_content %}
+    <!-- content 내용 끝 -->
+    {% block footer %}
+    {% endblock footer %}
+</body>
+
+</html>

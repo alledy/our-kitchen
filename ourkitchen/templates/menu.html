@@ -3,9 +3,9 @@
         <h2>Menu</h2>
         <ul>
             <li><a href="index.html">Home</a></li>
-            <li><a href="#">예약 관리</a></li>
-            <li><a href="#">상권 분석</a></li>
-            <li><a href="#">챗봇 상담</a></li>
-            <li><a href="#">로그 아웃</a></li>
+            <li><a href="{% url 'reserve:index' %}">예약 관리</a></li>
+            <li><a href="{% url 'analysis:kitchen_map' %}">상권 분석</a></li>
+            <li><a href="{% url 'chatbot:chat' %}">챗봇 상담</a></li>
+            <li><a href="{% url 'chatbot:mypage' %}">마이페이지</a></li>
         </ul>
     </nav>

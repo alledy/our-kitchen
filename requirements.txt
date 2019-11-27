@@ -34,7 +34,6 @@ MarkupSafe==1.1.1
 mccabe==0.6.1
 numpy==1.17.4
 pycodestyle==2.5.0
-pylint==2.4.4
 pylint-django==2.0.13
 pylint-plugin-utils==0.6
 pytz==2019.3
@@ -77,7 +76,6 @@ pyecharts==1.6.0
 Pygments==2.4.2
 pyparsing==2.4.5
 python-dateutil==2.8.0
-python-decouple==3.1
 pytz==2019.3
 query-string==2019.4.13
 request==2019.4.13
