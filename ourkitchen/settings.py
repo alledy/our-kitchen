@@ -1,3 +1,5 @@
+from decouple import config
+import django_heroku
 import os
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
@@ -11,6 +13,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = '_9@_ry9vl3gyw*i!_whh8xhy49%zv34kzx86!!3pi$2o2y81#h'
 
 # SECURITY WARNING: don't run with debug turned on in production!
+SECRET_KEY = config('SECRET_KEY')
 DEBUG = True
 
 ALLOWED_HOSTS = []
@@ -27,6 +30,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    # 챗봇
+    'chatbot',
     # Add bootstrap, bootswatch
     'bootstrap_themes',
     # Add compressor which compress css and js files
@@ -96,6 +101,14 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+# ngrok이 생성한 url로 로컬 서버를 실행시키도록 함
+ALLOWED_HOSTS = [
+
+        '16ba64ba.ngrok.io',
+
+        '127.0.0.1'
+ ]
+
 
 # Internationalization
 # https://docs.djangoproject.com/en/2.2/topics/i18n/
@@ -115,6 +128,8 @@ USE_TZ = False
 # https://docs.djangoproject.com/en/2.2/howto/static-files/
 
 STATIC_URL = '/static/'
+
+django_heroku.settings(locals())
 
 STATIC_ROOT = os.path.join(BASE_DIR, 'ourkitchen', 'static')
 
