@@ -1,12 +1,12 @@
 from django.shortcuts import render, redirect
-from reservation.models import Kitchen_info
-from .models import Start_up, move_pop, stay_pop
+from .models import Kitchen_info, Start_up, move_pop, stay_pop
 import urllib.request
 import requests
 import pandas as pd
-import numpy
+import numpy as np
+from pandas import DataFrame
 import matplotlib.pyplot as plt
-import mpld3
+# import mpld3
 from matplotlib import rcParams
 import folium
 from folium import plugins
@@ -59,6 +59,8 @@ def radius(request, lat, lng):
     store_code = list()
     store_lon = list()
     store_lat = list()
+    genre_name = list()
+    genre_sum = list()
     #map = folium.Map(location=[lat,lng], zoom_start=14)
     map_list = list()
     for i in range(times):
@@ -66,18 +68,31 @@ def radius(request, lat, lng):
         store_code.append(res["body"]["items"][i]["indsSclsNm"])
         store_lon.append(res["body"]["items"][i]["lon"])
         store_lat.append(res["body"]["items"][i]["lat"])
+    store_code_unique = pd.unique(store_code)
+    zero = np.zeros(((len(store_code),len(store_code_unique)))
+    # dummy = DataFrame(zero, colunms = store_code_unique)
+    # for n, g in enumerate(store_code):
+    #     dummy.ix[n, g.split("|")]=1
+    # TDM = dummy.T
+    # print(TDM)
+    # word_counter = TDM.sum(axis=1)
+    # print(word_counter)
+    # for genre in word_counter:
+    #     genre_name.append(word_counter[''])
+    #     genre_sum.append(word_counter.두번째 컬럼(장르 총합))
 
 ######################################################################
-    #area = res["body"]["items"][0]["signguCd"]
-    area_name = res["body"]["items"][0]["signguNm"]
-    # area_name2 = area_name.split(' ')[2]
-    # start_up = Start_up.objects.all()
-    # start_up = Start_up.objects.filter(signgunm = area_name)
-    start_up = Start_up.objects.get(signgunm = area_name)
-    close = start_up.close
-    remain_term = start_up.remain_term 
-    plma = start_up.plma
-    danger = start_up.danger
+    if Start_up:
+        #area = res["body"]["items"][0]["signguCd"]
+        area_name = res["body"]["items"][0]["signguNm"]
+        # area_name2 = area_name.split(' ')[2]
+        # start_up = Start_up.objects.all()
+        # start_up = Start_up.objects.filter(signgunm = area_name)
+        start_up = Start_up.objects.get(signgunm = area_name)
+        close = start_up.close
+        remain_term = start_up.remain_term 
+        plma = start_up.plma
+        danger = start_up.danger
     else:
         result = '해당 지역 정보가 없습니다.'
         return redirect('analysis:kitchen_map')
