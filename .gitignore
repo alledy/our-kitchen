@@ -196,5 +196,8 @@ pip-selfcheck.json
 # Ignore all local history of files
 .history
 
+### ngrok ###
+ngrok.exe
+
 # End of https://www.gitignore.io/api/venv,python,django,visualstudiocode
 

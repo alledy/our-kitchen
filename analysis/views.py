@@ -1,5 +1,6 @@
 from django.shortcuts import render, redirect
-from .models import Kitchen_info, Start_up, move_pop, stay_pop
+from .models import Start_up, move_pop, stay_pop
+from reservation.models import Kitchen_info
 import urllib.request
 import requests
 import pandas as pd
@@ -83,13 +84,13 @@ def radius(request, lat, lng):
             plma = start_up.plma
             danger = start_up.danger
         # 구별 창업지수를 필터하기 위한 식
-            street_name = res["body"]["items"][i]["rdnm"]
-            street_name1 = area_name.split(' ')[2]
-            if street_name1 in stay_pop:
-                break
-            print(street_name1)
-            move_info = move_pop.objects.get(rdnm = street_name1)
-            move_info
+            # street_name = res["body"]["items"][i]["rdnm"]
+            # street_name1 = area_name.split(' ')[2]
+            # if street_name1 in stay_pop:
+            #     break
+            # print(street_name1)
+            # move_info = move_pop.objects.get(rdnm = street_name1)
+            # move_info
                 
         # 도로명에 따른 상주인구와 유동인구 정보를 분류
 
@@ -100,7 +101,7 @@ def radius(request, lat, lng):
     print(pie_keys)
     pie_values = piechart_value.values()
     print(pie_values)
-    return render(request, 'analysis/radius.html',{'move_info':move_info,'pie_keys':pie_keys,'pie_values':pie_values,'danger':danger,'lat':lat,'lng':lng,'store_id':store_id,'store_code':store_code,'store_lon':store_lon,'store_lat':store_lat, 'close':close, 'remain_term':remain_term, 'plma':plma })
+    return render(request, 'analysis/radius.html',{'pie_keys':pie_keys,'pie_values':pie_values,'danger':danger,'lat':lat,'lng':lng,'store_id':store_id,'store_code':store_code,'store_lon':store_lon,'store_lat':store_lat, 'close':close, 'remain_term':remain_term, 'plma':plma })
    
 
 #     #상주인구의 지역코드와 info3가 같다면
