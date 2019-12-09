@@ -50,93 +50,59 @@ def kitchen_map2(request):
 
 def radius(request, lat, lng):
     token = config('TOKEN')
-    url = f'http://apis.data.go.kr/B553077/api/open/sdsc/storeListInRadius?radius=500&cx={lng}&cy={lat}&ServiceKey={token}&type=json&indsLclsCd=Q'
-    res = requests.get(url).json()
-    print(res)
-    times = len(res["body"]["items"])
-    print(times)
     store_id = list()
     store_code = list()
     store_lon = list()
     store_lat = list()
-    genre_name = list()
-    genre_sum = list()
-    #map = folium.Map(location=[lat,lng], zoom_start=14)
-    map_list = list()
-    for i in range(times):
-        store_id.append(res["body"]["items"][i]["bizesId"])
-        store_code.append(res["body"]["items"][i]["indsSclsNm"])
-        store_lon.append(res["body"]["items"][i]["lon"])
-        store_lat.append(res["body"]["items"][i]["lat"])
-    store_code_unique = pd.unique(store_code)
-    zero = np.zeros(((len(store_code),len(store_code_unique)))
-    # dummy = DataFrame(zero, colunms = store_code_unique)
-    # for n, g in enumerate(store_code):
-    #     dummy.ix[n, g.split("|")]=1
-    # TDM = dummy.T
-    # print(TDM)
-    # word_counter = TDM.sum(axis=1)
-    # print(word_counter)
-    # for genre in word_counter:
-    #     genre_name.append(word_counter[''])
-    #     genre_sum.append(word_counter.두번째 컬럼(장르 총합))
+    street_name = list()
+    map = folium.Map(location=[lat,lng], zoom_start=14)
+    for j in range(1, 30):
+        url = f'http://apis.data.go.kr/B553077/api/open/sdsc/storeListInRadius?radius=500&cx={lng}&cy={lat}&ServiceKey={token}&type=json&indsLclsCd=Q&pageNo={j}'
+        # url = f'http://apis.data.go.kr/B553077/api/open/sdsc/storeListInRadius?radius=500&cx={lng}&cy={lat}&ServiceKey={token}&type=json&indsLclsCd=Q&pageNo=2'
+        res = requests.get(url).json()
+        if res["header"]["resultCode"] != '00':
+            break
+        # map_list = list()
+        times = len(res["body"]["items"])
+        for i in range(times):
+            store_id.append(res["body"]["items"][i]["bizesId"])
+            store_code.append(res["body"]["items"][i]["indsMclsNm"])
+            store_lon.append(res["body"]["items"][i]["lon"])
+            store_lat.append(res["body"]["items"][i]["lat"])
 
 ######################################################################
-    if Start_up:
-        #area = res["body"]["items"][0]["signguCd"]
-        area_name = res["body"]["items"][0]["signguNm"]
-        # area_name2 = area_name.split(' ')[2]
-        # start_up = Start_up.objects.all()
-        # start_up = Start_up.objects.filter(signgunm = area_name)
-        start_up = Start_up.objects.get(signgunm = area_name)
-        close = start_up.close
-        remain_term = start_up.remain_term 
-        plma = start_up.plma
-        danger = start_up.danger
-    else:
-        result = '해당 지역 정보가 없습니다.'
-        return redirect('analysis:kitchen_map')
-    return render(request, 'analysis/radius.html',{'danger':danger,'lat':lat,'lng':lng,'store_id':store_id,'store_code':store_code,'store_lon':store_lon,'store_lat':store_lat, 'close':close, 'remain_term':remain_term, 'plma':plma })
+        if Start_up:
+            #area = res["body"]["items"][0]["signguCd"]
+            area_name = res["body"]["items"][0]["signguNm"]
+            # area_name2 = area_name.split(' ')[2]
+            # start_up = Start_up.objects.all()
+            # start_up = Start_up.objects.filter(signgunm = area_name)
+            start_up = Start_up.objects.get(signgunm = area_name)
+            close = start_up.close
+            remain_term = start_up.remain_term 
+            plma = start_up.plma
+            danger = start_up.danger
+        # 구별 창업지수를 필터하기 위한 식
+            street_name = res["body"]["items"][i]["rdnm"]
+            street_name1 = area_name.split(' ')[2]
+            if street_name1 in stay_pop:
+                break
+            print(street_name1)
+            move_info = move_pop.objects.get(rdnm = street_name1)
+            move_info
+                
+        # 도로명에 따른 상주인구와 유동인구 정보를 분류
+
+    #가게별 코드별 유니크 이름으로 분류하고, 해당 빈도 값을 만드는 식  
+    store_code_unique = pd.unique(store_code)
+    piechart_value = Counter(store_code)
+    pie_keys = list(piechart_value.keys())
+    print(pie_keys)
+    pie_values = piechart_value.values()
+    print(pie_values)
+    return render(request, 'analysis/radius.html',{'move_info':move_info,'pie_keys':pie_keys,'pie_values':pie_values,'danger':danger,'lat':lat,'lng':lng,'store_id':store_id,'store_code':store_code,'store_lon':store_lon,'store_lat':store_lat, 'close':close, 'remain_term':remain_term, 'plma':plma })
    
-# def stick(request, lat, lng):
-#     token = config('TOKEN')
-#     url = f'http://apis.data.go.kr/B553077/api/open/sdsc/storeListInRadius?radius=500&cx={lng}&cy={lat}&ServiceKey={token}&type=json&indsLclsCd=Q'
-#     res = requests.get(url).json()
 
-
-# def pie(request):
-#     token = config('TOKEN')
-#     url = f'http://apis.data.go.kr/B553077/api/open/sdsc/storeListInRadius?radius=500&cx={lng}&cy={lat}&ServiceKey={token}&type=json&indsLclsCd=Q'
-#     res = requests.get(url).json()
-
-#     if worker.code = info3
-#         #직장인구의 지역코드와 info3가 같다면
-
-#         #서울 평균과 지역 데이터 비교
-#         label = ['총직장인구수', '남성_total', '여성_total', '20대_total', '30대_total', '40대_total', '50대_total', '60대_total', '남성_20', '남성_30', '남성_40', '남성_50', '남성_60', '여성_20', '여성_30', '여성_40', '여성_50', '여성_60']
-#         plt.rcParams["font.family"] = 'Malgun Gothic'
-#         plt.rcParams["font.size"] = 12
-#         plt.rcParams["figure.figsize"] = (12, 8)
-
-#         plt.figure()
-
-#         x = numpy.arange(len(label))
-#         worker_value = numpy.array()
-#         #해당 row의 인덱스를 찾자.
-
-#         plt.bar(x-0.0, worker_avg, width=0.2, color='blue')
-#         plt.bar(x+0.2, worker[n], color='red')
-#         plt.xticks(x, label)
-
-#         plt.legend()
-#         plt.ylabel('인원')
-#         plt.title(info3+'직장인구 현황')
-#         return
-#     else
-#         result = '해당 지역 정보가 없습니다.'
-#         return(request,보낼 곳, {'result':result})
-
-#     if live.code = info3
 #     #상주인구의 지역코드와 info3가 같다면
 #         label = ['총상주인구', '남성_total', '여성_total', '20대_total', '30대_total', '40대_total', '50대_total', '60대_total', '남성_20', '남성_30', '남성_40', '남성_50', '남성_60', '여성_20', '여성_30', '여성_40', '여성_50', '여성_60']
 #         plt.rcParams["font.family"] = 'Malgun Gothic'

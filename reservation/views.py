@@ -2,7 +2,8 @@ from django.shortcuts import render, redirect
 from django.views import generic
 from . import mixins
 from .forms import ReservationForm
-from .models import Kitchen_info, Reservation
+from analysis.models import Kitchen_info
+from .models import Reservation
 import folium
 from folium.plugins import MarkerCluster
 import datetime
