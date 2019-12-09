@@ -8,7 +8,7 @@ class Kitchen_info(models.Model):
     kitchen_name = models.CharField(max_length=20)
     lat = models.FloatField(blank=False)
     lng = models.FloatField(blank=False)
-    created_at = models.DateTimeField(auto_now_add=True)
+    created_at = models.DateTimeField(auto_now_add=True, blank=True)
     capacity = models.IntegerField(default=6)
 
     def __str__(self):
