@@ -2,8 +2,7 @@ from django.shortcuts import render, redirect
 from django.views import generic
 from . import mixins
 from .forms import ReservationForm
-from .models import Kitchen_info
-from .models import Reservation
+from .models import Kitchen_info, Reservation
 import folium
 from folium.plugins import MarkerCluster
 import datetime
@@ -48,12 +47,18 @@ class MonthCalendar(mixins.MonthWithScheduleMixin, generic.CreateView):
     date_field = 'start_date'
     form_class = ReservationForm
 
-    # # 폼클래스에 url parameter 넘기기 위해 사용
-    # def get_form_kwargs(self):
-    #     kwargs = super(MonthCalendar, self).get_form_kwargs()
-    #     # update the kwargs for the form init method with yours
-    #     kwargs.update(self.kwargs)  # self.kwargs contains all url conf params
-    #     return kwargs
+    # 폼클래스에 url parameter 넘기기 위해 사용
+    def get_form_kwargs(self):
+        kwargs = super(MonthCalendar, self).get_form_kwargs()
+        # update the kwargs for the form init method with yours
+        kwargs.update(self.kwargs)  # self.kwargs contains all url conf params
+        return kwargs
+
+    # def get_queryset(self):
+    #     kitchen_pk = self.kwargs['kitchen_pk']
+    #     kitchen = Reservation.objects.get(kitchen_id=kitchen_pk)
+    #     current_cap = kitchen.capacity
+    #     kitchen.capacity = current_cap - 1
 
     def get_context_data(self, **kwargs):
         kitchen_pk = self.kwargs['kitchen_pk']

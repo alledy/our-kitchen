@@ -1,7 +1,6 @@
 from django.db import models
 from django.core.exceptions import ValidationError
-
-# 나중에 analysis앱에서 임포트할 예정
+from django.urls import reverse
 
 
 class Kitchen_info(models.Model):
@@ -41,9 +40,9 @@ class Reservation(models.Model):
     def __str__(self):
         return f"{self.start_date} ~ {self.end_date} : {self.time}"
 
-    # 시간대가 겹치지 않으면 날짜가 겹쳐도 예약 가능
-    # 시간대가 겹치면 날짜가 겹치지 않아야 예약 가능
-    # existed는 이미 존재하는 예약, new는 추가될 예약
+        # 시간대가 겹치지 않으면 날짜가 겹쳐도 예약 가능
+        # 시간대가 겹치면 날짜가 겹치지 않아야 예약 가능
+        # existed는 이미 존재하는 예약, new는 추가될 예약
 
     def check_overlap_date(self, existed_start, existed_end, new_start, new_end):
         overlap = True
