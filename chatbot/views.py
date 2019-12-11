@@ -32,9 +32,8 @@ def webhook(request):
            fulfillmentText = {'fulfillmentText':f'[{name}]으로[{time}]에 상담이 신청되었습니다.\n라인에서 Our Kitchen을 친구 추가하시고 신청 결과를 받아보세요! \n https://qr-official.line.me/sid/L/079xpssr.png'}
            
            Consulting.objects.create(kitchen=name,datetime=time)
-           print(name+time)
 
-        # 주방 이름 모를 때
+        # 주방 미정일 때 위치로 주방명 찾기
         if action=='get_kitchen_location': 
            location = req['queryResult']['parameters']['KITCHEN_location']
            
@@ -45,17 +44,6 @@ def webhook(request):
                kitchen_list += '"'+i.kitchen_name+'" '
 
            fulfillmentText = {'fulfillmentText':f'어느 주방에 상담을 신청해 드릴까요? [{location}]에는 {kitchen_list}이 있네요!'}
-
-        if action=='Consulting2.Consulting2-custom.Consulting2-custom-custom.Consulting2-custom-custom-custom.Consulting2-custom-custom-custom-custom':
-            time = req['queryResult']['parameters']['date-time']['date_time']
-            fulfillmentText = {'fulfillmentText':f'요청하신 시간으로 상담 신청 할까요? 요청시간 :{time}'}  
-
-        if action=='Consulting2.Consulting2-custom.Consulting2-custom-custom.Consulting2-custom-custom-custom.Consulting2-custom-custom-custom-custom.Consulting2-custom-custom-custom-custom-yes':
-            name = req['queryResult']['outputContexts'][1]['parameters']['KITCHEN_name']
-            time = req['queryResult']['outputContexts'][1]['parameters']['date-time']['date_time']
-            fulfillmentText = {'fulfillmentText':f'[{name}]으로[{time}]에 상담이 신청되었습니다.\n라인에서 Our Kitchen을 친구 추가하시고 신청 결과를 받아보세요! \n https://qr-official.line.me/sid/L/079xpssr.png'}
-
-            Consulting.objects.create(kitchen=name,datetime=time)
 
     return JsonResponse(fulfillmentText, safe=False)
 

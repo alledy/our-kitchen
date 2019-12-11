@@ -20,12 +20,12 @@ def signup(request):
 
 def login(request):
     if request.user.is_authenticated:   # 인증된 유저가 요청을 보낸 경우, 로그인 페이지를 보여주지 않고 목록 페이지로 redirect
-        return redirect('articles:index')
+        return redirect('index')
     if request.method == 'POST':
         form = AuthenticationForm(request, request.POST)
         if form.is_valid():
             auth_login(request, form.get_user())
-            return redirect('articles:index')
+            return redirect('index')
     else:
         form = AuthenticationForm()
         return render(request, 'accounts/auth_form.html', {'form':form})
