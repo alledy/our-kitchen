@@ -17,7 +17,8 @@ SECRET_KEY = config('SECRET_KEY')
 DEBUG = True
 
 ALLOWED_HOSTS = []
-
+AUTH_USER_MODEL = 'analysis.User' # 기본값 : 'accounts.User'
+LOGIN_REDIRECT_URL = 'index' # 기본값 : 'accounts/
 
 # Application definition
 
@@ -39,7 +40,19 @@ INSTALLED_APPS = [
     # Add reservation app
     'reservation',
     'bootstrap4',
+
+      # 소셜 로그인
+    'django.contrib.sites',
+    'allauth',
+    'allauth.socialaccount',
+    'allauth.account',
+    'allauth.socialaccount.providers.kakao',
 ]
+
+
+# 소셜로그인
+SITE_ID = 1 # 사이트 아이디 기본값
+
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',

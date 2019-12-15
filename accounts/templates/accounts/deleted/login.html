@@ -1,7 +1,10 @@
 {% if user.is_authenticated %}
 <h2>{{ user.username }}님</h2>
 <ul class="actions">
-        <li><input type="submit" value="logout" class="primary" /></li>
+		<form action="{% url 'accounts:logout' %}" method='POST' style='display:inline'>
+				{% csrf_token %}
+		<li><input type="submit" value="logout" class="primary" /></li>
+		</form>
     </ul>
 {% else %}
 <h2>LOGIN</h2>

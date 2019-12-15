@@ -1,18 +1,48 @@
-{% extends 'analysis/base.html' %}
-{% block body %}
-{% load bootstrap4 %}
-{% if request.resolver_match.url_name == 'signup' %}
-<h1 class='text-center'>회원가입</h1>
-{% elif request.resolver_match.url_name == 'login' %}
-<h1 class='text-center'>로그인</h1>
-{% elif request.resolver_match.url_name == 'edit' %}
-<h1 class='text-center'>회원정보 수정</h1>
-{% else %}
-<h1 class='text-center'>비밀번호 변경</h1>
-{% endif %}
-<form action="" method="POST">
-    {% csrf_token %}
-    {% bootstrap_form form layout='horizontal' %}
-    {% bootstrap_button "등록" button_class='btn btn-primary btn-sm' %}
-</form>
-{% endblock %}
+{% extends "index.html" %}
+{% load static %}
+{% load socialaccount %}
+<!DOCTYPE html>
+
+<body>
+    {% block content_title %}JOIN{% endblock %}
+    {% block content_explain %}OUR KITCHEN과 함께 하세요.{% endblock %}
+    <!-- content 내용 -->
+    {% block content_content %}
+
+    {% if request.resolver_match.url_name == 'signup' %}
+    <h1 class='text-center'>회원가입</h1>
+    {% elif request.resolver_match.url_name == 'login' %}
+    <h1 class='text-center'>로그인</h2>
+    {% elif request.resolver_match.url_name == 'edit' %}
+    <h1 class='text-center'>회원정보 수정</h1>
+    {% else %}
+    <h1 class='text-center'>비밀번호 변경</h1>
+    {% endif %}
+    <form method="post" action="">
+        {% csrf_token %}
+        {{ form }}
+        <br>
+        <ul class="actions">
+            <li><input  type="submit" value="Send" class="primary" style='display:inline;'></li>
+            {% if request.resolver_match.url_name == 'login' %}
+            <li><a href="#">비밀번호를 잊으셨나요?</a></li>
+            {% endif %}
+        </ul>
+    </form>
+
+    {% if request.resolver_match.url_name == 'login' %}
+    <ul class="actions" style='float:right;'>
+            <li><a href="{% url 'accounts:signup' %}"><button class='secondary'
+                style="display:inline;">간편 회원가입</button></a></li>
+            <li><a href="{% provider_login_url 'kakao' %}"><button class='secondary'
+                style="display:inline;">카카오톡 로그인</button></a></li>    
+    </ul>
+    {% endif %}
+
+    {% endblock content_content %}
+    <!-- content 내용 끝 -->
+    {% block footer %}
+    {% endblock footer %}
+</body>
+
+

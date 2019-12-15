@@ -1,6 +1,10 @@
     <!-- Menu -->
     <nav id="menu">
-        <h2>Menu</h2>
+        <h2>
+            <span>Menu</span>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <span><a href="{% url 'accounts:login' %}">Login</a></span>
+        </h2>
         <ul>
             <li><a href="http://127.0.0.1:8000/">Home</a></li>
             <li><a href="{% url 'reserve:index' %}">예약 관리</a></li>
