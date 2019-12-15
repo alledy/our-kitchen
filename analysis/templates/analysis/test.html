@@ -103,10 +103,25 @@
 
             <!-- content 내용 -->
             {% block content_content %}
+            <select id='genre' name='genre' size='8'>
+                    <option value='한식' selected>-- 선택 --</option>
+                    <option value='한식'>한식</option>
+                    <option value='중식'>중식</option>
+                    <option value='양식'>양식</option>
+                    <option value='분식'>분식</option>
+                    <option value='패스트푸드점'>패스트푸드점</option>
+                    <option value='제과제빵떡케익'>제과제빵떡케익</option>
+                    <option value='커피점/카페'>커피점/카페</option>
+                </select>
             <div class="map-box">
                 <div class="folium-map" id="map_seoul"></div>
             </div>
+            
             <script>
+                var obj = document.getElementById('genre');
+                var index = obj.selectedIndex;
+                var genre = obj.options[index].value;
+                console.log( 'value = '+ genre );
                 var map_seoul = L.map(
                     "map_seoul", {
                         center: [37.5502, 126.982],
@@ -130,21 +145,21 @@
                     }
                 ).addTo(map_seoul);
                 var storeName = "{{ name }}".replace(/&#39;/gi, '"')
-                console.log(storeName)
+                // console.log(storeName)
                 var storeLat = "{{ lat }}".replace(/&#39;/gi, '')
                 var storeLon = "{{ lng }}".replace(/&#39;/gi, '')
                 storeName = JSON.parse(storeName)
                 storeLat = JSON.parse(storeLat)
                 storeLon = JSON.parse(storeLon)
-                console.log(storeName)
+                // console.log(storeName)
                 for (var i = 0; i < storeName.length; i++) {
-                    console.log(storeLat[i], storeLon[i], storeName[i])
+                    // console.log(storeLat[i], storeLon[i], storeName[i])
                     var marker_store_id = L.marker([storeLat[i], storeLon[i]], {}).addTo(map_seoul);
                     var popup_store_id = L.popup({
                         "maxWidth": "100%"
                     });
                     var html_store_id = $(
-                        `<div <div onclick="location.href='http://127.0.0.1:8000/analysis/${storeLat[i]}/${storeLon[i]}/'"  id='${storeName[i]}' style="width: 100.0%; height: 100.0%;">${storeName[i]}</div>`
+                        `<div <div onclick="location.href='http://127.0.0.1:8000/analysis/${storeLat[i]}/${storeLon[i]}/${genre}'"  id='${storeName[i]}' style="width: 100.0%; height: 100.0%;">${storeName[i]}</div>`
                     )[0];
                     popup_store_id.setContent(html_store_id);
                     marker_store_id.bindPopup(popup_store_id);

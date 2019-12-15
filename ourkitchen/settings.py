@@ -17,7 +17,8 @@ SECRET_KEY = config('SECRET_KEY')
 DEBUG = True
 
 ALLOWED_HOSTS = []
-AUTH_USER_MODEL = 'analysis.User' # 기본값 : 'accounts.User'
+
+AUTH_USER_MODEL = 'accounts.User' # 기본값 : 'accounts.User'
 LOGIN_REDIRECT_URL = 'index' # 기본값 : 'accounts/
 
 # Application definition
