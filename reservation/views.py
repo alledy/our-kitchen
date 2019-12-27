@@ -85,4 +85,4 @@ class MonthCalendar(mixins.MonthWithScheduleMixin, generic.CreateView):
         reservation.kitchen = kitchen
         reservation.user = self.request.user
         reservation.save()
-        return redirect('cahtbot:mypage', kitchen_pk=kitchen_pk, year=year, month=month)
+        return redirect('reserve:reservation', kitchen_pk=kitchen_pk, year=year, month=month)
