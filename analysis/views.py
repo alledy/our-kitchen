@@ -21,6 +21,9 @@ import sqlite3
 token = config('TOKEN')
 # 소상공인 API
 
+# def storecode(request):
+#     return render(request, 'analysis/test.html', {'storecode':storecode})
+
 
 def kitchen_map(request):
     kitchens = Kitchen_info.objects.all()
@@ -48,7 +51,7 @@ def kitchen_map2(request):
 # 맵 생성
 
 
-def radius(request, lat, lng, storecode):
+def radius(request, lat, lng, genre):
     store_id = list()
     store_code = list()
     store_lon = list()
@@ -110,7 +113,7 @@ def radius(request, lat, lng, storecode):
             # move_info = Movepop.objects.filter(rdnm = street_names_unique[k]).first()
             if move_info:
                 break
-    sales_info = Sales.objects.filter(rdnm = move_info[0]['rdnm'], store_code = storecode).values()
+    sales_info = Sales.objects.filter(rdnm = move_info[0]['rdnm'], store_code = genre).values()
     sales_info = sales_info[0].values()
     move_info = move_info[0].values()
     stay_info = stay_info[0].values()

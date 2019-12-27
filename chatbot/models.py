@@ -11,5 +11,5 @@ class Kitchen_info(models.Model):
 class Consulting(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE,null=True)
     kitchen = models.CharField(max_length=20)
-    datetime = models.DateTimeField(auto_now_add=False)
+    datetime = models.CharField(max_length=30)
     addmission = models.BooleanField(default=False)
