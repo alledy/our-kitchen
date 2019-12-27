@@ -37,8 +37,14 @@
             <li><a href="{% provider_login_url 'kakao' %}"><button class='secondary'
                 style="display:inline;">카카오톡 로그인</button></a></li>    
     </ul>
+    {% elif request.resolver_match.url_name == 'logout' %}
+    <ul class="actions" style='float:right;'>
+            <li><a href="{% url 'accounts:signup' %}"><button class='secondary'
+                style="display:inline;">간편 회원가입</button></a></li>
+            <li><a href="{% provider_login_url 'kakao' %}"><button class='secondary'
+                style="display:inline;">카카오톡 로그인</button></a></li>    
+    </ul>
     {% endif %}
-
     {% endblock content_content %}
     <!-- content 내용 끝 -->
     {% block footer %}

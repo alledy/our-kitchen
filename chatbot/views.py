@@ -1,13 +1,13 @@
 from django.shortcuts import render
 from django.http import HttpResponse, JsonResponse # 결과 확인
 from django.views.decorators.csrf import csrf_exempt # 보안 토큰
-from reservation.models import Kitchen_info
+from analysis.models import Kitchen_info
+from reservation.models import Reservation
 from .models import Consulting
 from django.contrib.auth import get_user_model
+from django.contrib.auth.decorators import login_required
 import json
 
-def home(request):
-    return render(request,'chatbot/home.html')
 
 def chat(request):
     return render(request,'chatbot/chatbot.html')
@@ -30,7 +30,7 @@ def webhook(request):
            name = req['queryResult']['outputContexts'][1]['parameters']['KITCHEN_name']
            time = req['queryResult']['outputContexts'][1]['parameters']['date-time']['date_time']
            fulfillmentText = {'fulfillmentText':f'[{name}]으로[{time}]에 상담이 신청되었습니다.\n라인에서 Our Kitchen을 친구 추가하시고 신청 결과를 받아보세요! \n https://qr-official.line.me/sid/L/079xpssr.png'}
-           
+           print(name + time)
            Consulting.objects.create(kitchen=name,datetime=time)
 
         # 주방 미정일 때 위치로 주방명 찾기
@@ -47,6 +47,8 @@ def webhook(request):
 
     return JsonResponse(fulfillmentText, safe=False)
 
+@login_required
 def mypage(request):
     consultings = Consulting.objects.all()
-    return render(request,'chatbot/mypage.html',{'consultings':consultings})
+    reservations = Reservation.objects.all()
+    return render(request,'chatbot/mypage.html',{'reservations':reservations,'consultings':consultings})

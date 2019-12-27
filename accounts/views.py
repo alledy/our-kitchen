@@ -35,28 +35,28 @@ def logout(request):
         auth_logout(request)
     return redirect('index')
 
-def quit(request):
-    if request.method == 'POST':
-        request.user.delete()
-    return redirect('articles:index')
+# def quit(request):
+#     if request.method == 'POST':
+#         request.user.delete()
+#     return redirect('articles:index')
 
-def edit(request):
-    if request.method == 'POST':
-        form = UserCustomChangeForm(request.POST, instance=request.user)
-        if form.is_valid():
-            form.save()
-            return redirect('articles:index')
-    else:
-        form = UserCustomChangeForm(instance=request.user)
-        return render(request, 'accounts/auth_form.html', {'form':form})
+# def edit(request):
+#     if request.method == 'POST':
+#         form = UserCustomChangeForm(request.POST, instance=request.user)
+#         if form.is_valid():
+#             form.save()
+#             return redirect('articles:index')
+#     else:
+#         form = UserCustomChangeForm(instance=request.user)
+#         return render(request, 'accounts/auth_form.html', {'form':form})
 
-def change_password(request):
-    if request.method == 'POST':
-        form = PasswordChangeForm(request.user, request.POST)
-        if form.is_valid():
-            user = form.save()
-            update_session_auth_hash(request, user)  # 비밀번호 변경 후 기존 로그인된 계정 정보와 일치하지 않아서 자동로그아웃되지 않도록 session_auth_hash 정보를 update 해줌
-            return redirect('articles:index')
-    else:
-        form = PasswordChangeForm(request.user)
-        return render(request, 'accounts/auth_form.html', {'form':form})
+# def change_password(request):
+#     if request.method == 'POST':
+#         form = PasswordChangeForm(request.user, request.POST)
+#         if form.is_valid():
+#             user = form.save()
+#             update_session_auth_hash(request, user)  # 비밀번호 변경 후 기존 로그인된 계정 정보와 일치하지 않아서 자동로그아웃되지 않도록 session_auth_hash 정보를 update 해줌
+#             return redirect('articles:index')
+#     else:
+#         form = PasswordChangeForm(request.user)
+#         return render(request, 'accounts/auth_form.html', {'form':form})

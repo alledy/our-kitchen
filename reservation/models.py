@@ -1,26 +1,8 @@
 from django.db import models
+from django.conf import settings
 from django.core.exceptions import ValidationError
+from analysis.models import Kitchen_info
 
-# 나중에 analysis앱에서 임포트할 예정
-
-
-class Kitchen_info(models.Model):
-    kitchen_name = models.CharField(max_length=20)
-    lat = models.FloatField(blank=False)
-    lng = models.FloatField(blank=False)
-    capacity = models.IntegerField(default=6)
-
-    def __str__(self):
-        return f'{self.kitchen_name}의 수용 가능 인원 : {self.capacity}'
-
-# class User(models.Model):
-#     user = models.ForeignKey(settings.AUTH_USER_MODEL,
-#                              on_delete=models.CASCADE)
-
-# 일단 로그인 기능 없이 예약 진행
-# last_date -> end_date
-# kitchen_name -> kitchen
-# Reservation_time -> Reservation
 
 
 class Reservation(models.Model):
@@ -36,9 +18,10 @@ class Reservation(models.Model):
         ('N', '밤/심야(18시~24시)'),
     )
     time = models.CharField(max_length=1, choices=TIME_CHOICES)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
 
     def __str__(self):
-        return f"{self.start_date} ~ {self.end_date} : {self.time}"
+        return f"{self.user.username}의 예약 - {self.start_date} ~ {self.end_date} : {self.time}"
 
     # 시간대가 겹치지 않으면 날짜가 겹쳐도 예약 가능
     # 시간대가 겹치면 날짜가 겹치지 않아야 예약 가능
