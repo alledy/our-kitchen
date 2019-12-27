@@ -6,8 +6,10 @@ from .models import Reservation, Kitchen_info
 import folium
 from folium.plugins import MarkerCluster
 import datetime
+from django.contrib.auth.decorators import login_required # 로그인 필수 기능
+from django.contrib.auth import get_user_model
 
-
+@login_required
 def index(request):
     kitchens = Kitchen_info.objects.all()
     # Get first data
@@ -81,5 +83,6 @@ class MonthCalendar(mixins.MonthWithScheduleMixin, generic.CreateView):
         kitchen = Kitchen_info.objects.get(pk=kitchen_pk)
         reservation = form.save(commit=False)
         reservation.kitchen = kitchen
+        reservation.user = self.request.user
         reservation.save()
-        return redirect('reserve:reservation', kitchen_pk=kitchen_pk, year=year, month=month)
+        return redirect('cahtbot:mypage', kitchen_pk=kitchen_pk, year=year, month=month)

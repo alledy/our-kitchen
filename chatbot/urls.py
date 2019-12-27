@@ -5,7 +5,6 @@ app_name = 'chatbot'
 
 urlpatterns = [
     path('mypage/',views.mypage,name='mypage'),
-    path('home/',views.home, name='home'),
     path('chat/', views.chat, name='chat'),
     path('webhook/',views.webhook,name='webhook'),
 ]

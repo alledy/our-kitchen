@@ -18,6 +18,8 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
+AUTH_USER_MODEL = 'accounts.User' # 기본값 : 'accounts.User'
+LOGIN_REDIRECT_URL = 'index' # 기본값 : 'accounts/
 
 # Application definition
 
@@ -39,7 +41,19 @@ INSTALLED_APPS = [
     # Add reservation app
     'reservation',
     'bootstrap4',
+
+      # 소셜 로그인
+    'django.contrib.sites',
+    'allauth',
+    'allauth.socialaccount',
+    'allauth.account',
+    'allauth.socialaccount.providers.kakao',
 ]
+
+
+# 소셜로그인
+SITE_ID = 1 # 사이트 아이디 기본값
+
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -104,7 +118,7 @@ AUTH_PASSWORD_VALIDATORS = [
 # ngrok이 생성한 url로 로컬 서버를 실행시키도록 함
 ALLOWED_HOSTS = [
 
-        '16ba64ba.ngrok.io',
+        '5f95b27d.ngrok.io',
 
         '127.0.0.1'
  ]

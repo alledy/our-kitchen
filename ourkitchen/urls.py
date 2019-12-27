@@ -8,7 +8,8 @@ urlpatterns = [
     path('chatbot/',include('chatbot.urls')),
     path('analysis/',  include('analysis.urls')),
     path('accounts/', include('accounts.urls')),
+    path('accounts/', include('allauth.urls')),
     path('admin/', admin.site.urls),
     path('', views.index, name="index"),
-    path('reserve/', include('reservation.urls'))
+    path('reserve/', include('reservation.urls')),
 ]

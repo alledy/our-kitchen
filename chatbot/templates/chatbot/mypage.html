@@ -1,13 +1,37 @@
-
 {% extends "index.html" %}
 {% load static %}
 <!DOCTYPE html>
 
 <body>
     {% block content_title %}My Page{% endblock %}
-    {% block content_explain %}상담을 요청 내역을 확인할 수 있습니다 :){% endblock %}
+    {% block content_explain %}상담 요청 현황과 예약 내역을 확인할 수 있습니다 :){% endblock %}
     <!-- content 내용 -->
     {% block content_content %}
+    <h1 class='text-center'>예약 내역</h1>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>No</th>
+                <th>User</th>
+                <th>Kitchen</th>
+                <th>날짜</th>
+                <th>시간</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for reservation in reservations %}
+            <tr>
+                <td scope="row">{{ reservation.id }}</td>
+                <td>{{ user.username }}</td>
+                <td>{{ reservation.kitchen.kitchen_name }}</td>
+                <td>{{ reservation.start_date }} - {{ reservation.end_date }}</td>
+                <td>{{ reservation.time }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <h1 class='text-center'>상담 신청 현황</h1>
     <table class="table">
         <thead>
             <tr>
