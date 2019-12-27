@@ -30,7 +30,6 @@ def webhook(request):
            name = req['queryResult']['outputContexts'][1]['parameters']['KITCHEN_name']
            time = req['queryResult']['outputContexts'][1]['parameters']['date-time']['date_time']
            fulfillmentText = {'fulfillmentText':f'[{name}]으로[{time}]에 상담이 신청되었습니다.\n라인에서 Our Kitchen을 친구 추가하시고 신청 결과를 받아보세요! \n https://qr-official.line.me/sid/L/079xpssr.png'}
-           print(name + time)
            Consulting.objects.create(kitchen=name,datetime=time)
 
         # 주방 미정일 때 위치로 주방명 찾기
@@ -50,5 +49,4 @@ def webhook(request):
 @login_required
 def mypage(request):
     consultings = Consulting.objects.all()
-    reservations = Reservation.objects.all()
     return render(request,'chatbot/mypage.html',{'reservations':reservations,'consultings':consultings})

@@ -21,6 +21,9 @@ import sqlite3
 token = config('TOKEN')
 # 소상공인 API
 
+# def storecode(request):
+#     return render(request, 'analysis/test.html', {'storecode':storecode})
+
 
 def kitchen_map(request):
     kitchens = Kitchen_info.objects.all()
@@ -48,7 +51,7 @@ def kitchen_map2(request):
 # 맵 생성
 
 
-def radius(request, lat, lng, storecode):
+def radius(request, lat, lng, genre):
     store_id = list()
     store_code = list()
     store_lon = list()
@@ -97,7 +100,6 @@ def radius(request, lat, lng, storecode):
             remain_term = start_up.remain_term 
             plma = start_up.plma
             danger = start_up.danger
-
         street_names_unique = pd.unique(street_names)
         times2 = len(street_names_unique)
         # conn = sqlite3.connect(':memory:')
@@ -111,7 +113,7 @@ def radius(request, lat, lng, storecode):
             # move_info = Movepop.objects.filter(rdnm = street_names_unique[k]).first()
             if move_info:
                 break
-    sales_info = Sales.objects.filter(rdnm = move_info[0]['rdnm'], store_code = storecode).values()
+    sales_info = Sales.objects.filter(rdnm = move_info[0]['rdnm'], store_code = genre).values()
     sales_info = sales_info[0].values()
     move_info = move_info[0].values()
     stay_info = stay_info[0].values()
@@ -151,7 +153,6 @@ def radius(request, lat, lng, storecode):
     pie_keys = list(piechart_value.keys())
     # print(pie_keys)
     pie_values = piechart_value.values()
-
     # print(pie_values)
     # 'move_info':move_info
     return render(request, 'analysis/radius.html',{'sales_info':sales_info,'move_info':move_info,'stay_info':stay_info,'pie_keys':pie_keys,'pie_values':pie_values,'danger':danger,'lat':lat,'lng':lng,'store_id':store_id,'store_code':store_code,'store_lon':store_lon,'store_lat':store_lat, 'close':close, 'remain_term':remain_term, 'plma':plma })

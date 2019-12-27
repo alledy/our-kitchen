@@ -85,26 +85,6 @@
         vertical-align: top; 
         
         }
-        /*
-        .mychart_second {
-        width: 300px;
-        height: 400px;
-        display: inline-block; 
-        vertical-align: top; 
-        
-        }
-
-        .container { 
-            position: relative;
-            display: block;
-            width: 100%;
-            height: 4000px;
-            text-align: center;
-            display : grid;
-            grid-template-rows: repeat(3, 1000px);
-            grid-template-  : repeat(3, 3fr); 
-
-        }
         .container:after{display: block;content: '';clear: both;}
         .container canvas.item{float: left; height: auto !important; width: 45% !important;margin: 0 2.5% 80px 2.5%;} */
 
@@ -210,9 +190,7 @@
                
             
 </script>
-<canvas id="example" width="200" height="200">
-    This text is displayed if your browser does not support HTML5 Canvas.
-</canvas>
+<h1></h1>
 <script>    
             var sales_info = "{{sales_info}}".replace(/dict_values\(/gi,'').replace(/&#39;/gi,'').replace(/\'/gi,'\"').replace(/\,/gi,'\","').replace(/\[/gi,'\["').replace(/\]/gi,'\"]').replace(/\)/gi,'');
             var stay_info = "{{stay_info}}".replace(/dict_values\(/gi,'').replace(/&#39;/gi,'').replace(/\'/gi,'\"').replace(/\,/gi,'\","').replace(/\[/gi,'\["').replace(/\]/gi,'\"]').replace(/\)/gi,'');
@@ -248,25 +226,25 @@
 </div> -->
 <ul class="nav nav-tabs">
         <li class="nav-item">
-          <a class="nav-link active" href="#chart1" data-toggle="tab">chart1</a>
+          <a class="nav-link active" href="#chart1" data-toggle="tab">창업지수</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="#chart2" data-toggle="tab">chart2</a>
+          <a class="nav-link" href="#chart2" data-toggle="tab">인근점포현황</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link disabled" href="#chart3" data-toggle="tab">chart3</a>
+          <a class="nav-link disabled" href="#chart3" data-toggle="tab">상주/직장인구 현황</a>
         </li>
         <li class="nav-item">
-         <a class="nav-link" href="#chart4" data-toggle="tab">chart4</a>
+         <a class="nav-link" href="#chart4" data-toggle="tab">성별 상권 매출비율</a>
         </li>
         <li class="nav-item">
-         <a class="nav-link" href="#chart5" data-toggle="tab">chart5</a>
+         <a class="nav-link" href="#chart5" data-toggle="tab">시간대별 상권 매출비율</a>
         </li>
         <li class="nav-item">
-         <a class="nav-link" href="#chart6" data-toggle="tab">chart6</a>
+         <a class="nav-link" href="#chart6" data-toggle="tab"> 주중/주말 매출 비율</a>
         </li>
         <li class="nav-item">
-         <a class="nav-link" href="#chart7" data-toggle="tab">chart7</a>
+         <a class="nav-link" href="#chart7" data-toggle="tab">매출 비율</a>
         </li>
       </ul>
 
@@ -344,6 +322,13 @@ var myChart = new Chart(ctx, {
         scales: {
             yAxes: [{
                 ticks: {
+                    fontSize: 25,
+                    beginAtZero:true
+                }
+            }],
+            xAxes: [{
+                ticks: {
+                    fontSize: 25,
                     beginAtZero:true
                 }
             }]
@@ -361,22 +346,22 @@ var myChart = new Chart(ctx, {
             data: pie_values,
             backgroundColor: [
             'rgba(54, 162, 235, 0.2)',
-                'rgba(255, 206, 86, 0.2)',
-                'rgba(75, 192, 192, 0.2)',
-                'rgba(153, 102, 255, 0.2)',
-                'rgba(255, 159, 64, 0.2)',
-                'rgba(255, 99, 132, 0.2)',
-                'rgba(54, 162, 235, 0.2)',
-                'rgba(255, 206, 86, 0.2)',
-                'rgba(75, 192, 192, 0.2)',
-                'rgba(153, 102, 255, 0.2)',
-                'rgba(255, 159, 64, 0.2)',
-                'rgba(255,99,132,1)',
-                'rgba(54, 162, 235, 1)',
-                'rgba(255, 206, 86, 1)',
-                'rgba(75, 192, 192, 1)',
-                'rgba(153, 102, 255, 1)',
-                'rgba(255, 159, 64, 1)'
+            'rgba(255, 206, 86, 0.2)',
+            'rgba(75, 192, 192, 0.2)',
+            'rgba(153, 102, 255, 0.2)',
+            'rgba(255, 159, 64, 0.2)',
+            'rgba(255, 99, 132, 0.2)',
+            'rgba(54, 162, 235, 0.2)',
+            'rgba(255, 206, 86, 0.2)',
+            'rgba(75, 192, 192, 0.2)',
+            'rgba(153, 102, 255, 0.2)',
+            'rgba(255, 159, 64, 0.2)',
+            'rgba(255,99,132,1)',
+            'rgba(54, 162, 235, 1)',
+            'rgba(255, 206, 86, 1)',
+            'rgba(75, 192, 192, 1)',
+            'rgba(153, 102, 255, 1)',
+            'rgba(255, 159, 64, 1)'
             ],
             borderColor: [
             'rgba(255,99,132,1)',
@@ -411,6 +396,13 @@ var myChart = new Chart(ctx, {
         scales: {
             yAxes: [{
                 ticks: {
+                    fontSize: 25,
+                    beginAtZero:true
+                }
+            }],
+            xAxes: [{
+                ticks: {
+                    fontSize: 25,
                     beginAtZero:true
                 }
             }]
@@ -522,6 +514,13 @@ var myChart = new Chart(ctx, {
         scales: {
             yAxes: [{
                 ticks: {
+                    fontSize: 25,
+                    beginAtZero:true
+                }
+            }],
+            xAxes: [{
+                ticks: {
+                    fontSize: 30,
                     beginAtZero:true
                 }
             }]
@@ -548,10 +547,142 @@ var myChart = new Chart(ctx, {
         }]
     },
     options: {
+        tooltips: {
+            titleFontSize: 30,
+            bodyFontSize: 30
+        },
         maintainAspectRatio: true, // default value. false일 경우 포함된 div의 크기에 맞춰서 그려짐.
         scales: {
             yAxes: [{
                 ticks: {
+                    fontSize: 25,
+                    beginAtZero:true
+                }
+            }],
+            xAxes: [{
+                ticks: {
+                    fontSize: 30,
+                    beginAtZero:true
+                }
+            }]
+        },
+    }});
+    var myChart5 = new Chart(ctx5, 
+    {
+    type: 'pie',
+    data: {
+        labels: ["아침(06:00 - 11:00)", "점심 시간대(11:00 - 17:00)", "저녁 및 야식 시간대(17:00 - 06:00)"],
+        datasets: [{
+            label: "구간별 매출 비율",
+            data: [sales_info[9],sales_info[10],sales_info[11]],
+            backgroundColor: [
+            'rgba(54, 162, 235, 0.2)',
+            'rgba(255, 206, 86, 0.2)',
+            'rgba(153, 102, 255, 1)'
+            ],
+            borderColor: [
+            'rgba(255,99,132,1)',
+            'rgba(54, 162, 235, 1)',
+            'rgba(153, 102, 255, 1)'
+            ],
+            borderWidth: 1
+        }]
+    },
+    options: {
+        tooltips: {
+            titleFontSize: 30,
+            bodyFontSize: 30
+        },
+        maintainAspectRatio: true, // default value. false일 경우 포함된 div의 크기에 맞춰서 그려짐.
+        scales: {
+            yAxes: [{
+                ticks: {
+                    fontSize: 25,
+                    beginAtZero:true
+                }
+            }],
+            xAxes: [{
+                ticks: {
+                    fontSize: 25,
+                    beginAtZero:true
+                }
+            }]
+        },
+    }});
+    var myChart6 = new Chart(ctx6, {
+    type: 'pie',
+    data: {
+        labels: ["주중", "주말"],
+        datasets: [{
+            label: "주중/말 매출 비율",
+            data: [sales_info[5],sales_info[6]],
+            backgroundColor: [
+            'rgba(255, 99, 132, 0.2)',
+            'rgba(54, 162, 235, 0.2)'
+            ],
+            borderColor: [
+            'rgba(255,99,132,1)',
+            'rgba(54, 162, 235, 1)'
+            ],
+            borderWidth: 1
+        }]
+    },
+    options: {
+        tooltips: {
+            titleFontSize: 30,
+            bodyFontSize: 30
+        },
+        maintainAspectRatio: true, // default value. false일 경우 포함된 div의 크기에 맞춰서 그려짐.
+        scales: {
+            yAxes: [{
+                ticks: {
+                    fontSize: 25,
+                    beginAtZero:true
+                }
+            }],
+            xAxes: [{
+                ticks: {
+                    fontSize: 25,
+                    beginAtZero:true
+                }
+            }]
+        },
+    }});
+    var myChart7 = new Chart(ctx7, {
+    type: 'bar',
+    data: {
+        labels: ['월 매출', '월 매출 건수'],
+        datasets: [{
+            label: '건당 평균 매출:' + sales_info[3]/sales_info[4],
+            data: [sales_info[3],stay_info[4]],
+            backgroundColor: [
+            'rgba(255, 99, 132, 0.2)',
+            'rgba(54, 162, 235, 0.2)'
+            ],
+            borderColor: [
+            'rgba(255,99,132,1)',
+            'rgba(54, 162, 235, 1)'
+            ],
+            borderWidth: 1
+        }
+        ]
+    }, 
+    options: {
+        tooltips: {
+            titleFontSize: 30,
+            bodyFontSize: 30
+        },
+        maintainAspectRatio: true, // default value. false일 경우 포함된 div의 크기에 맞춰서 그려짐.
+        scales: {
+            yAxes: [{
+                ticks: {
+                    fontSize: 25,
+                    beginAtZero:true
+                }
+            }],
+            xAxes: [{
+                ticks: {
+                    fontSize: 25,
                     beginAtZero:true
                 }
             }]
