@@ -104,75 +104,18 @@
             <!-- content 내용 -->
             {% block content_content %}
             <!-- <form action =   -->
-            <form action = "http://127.0.0.1:8000/analysis/">
+            <!-- <form action = ""> -->
             <select id='genre' name='genre'>
-                    <option >중식</option>
-                    <option >한식</option>
-                    <option >양식</option>
-                    <option >분식</option>
-                    <option >패스트푸드점</option>
-                    <option >제과제빵떡케익</option>
-                    <option >커피점/카페</option>
-                </select>
+                    <option value="한식">한식</option>
+                    <option value="중식" id = "중식">중식</option>
+                    <option value="양식">양식</option>
+                    <option value='분식'>분식</option>
+                    <option value='패스트푸드점'>패스트푸드점</option>
+                    <option value='제과제빵떡케익'>제과제빵떡케익</option>
+                    <option value='커피점/카페'>커피점/카페</option>
+            </select>
                  <input type = 'submit'>
             <!-- </form> -->
-            <div class="map-box">
-                <div class="folium-map" id="map_seoul"></div>
-            </div>
-            
-            <script>
-                var obj = document.getElementById('genre');
-                var obj1 = window.location.href
-                var appctx = obj1.substring(obj1.lastIndexOf("genre"));
-                console.log(appctx);
-                var index = obj.selectedIndex;
-                var genre = obj.options[index].value;
-                
-                console.log( index );
-                var map_seoul = L.map(
-                    "map_seoul", {
-                        center: [37.5502, 126.982],
-                        crs: L.CRS.EPSG3857,
-                        zoom: 11,
-                        zoomControl: true,
-                        preferCanvas: false,
-                    }
-                );
-                var tile_layer_feef30a9ec504dbc97fdad2819aa31b6 = L.tileLayer(
-                    "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
-                        "attribution": "Data by \u0026copy; \u003ca href=\"http://openstreetmap.org\"\u003eOpenStreetMap\u003c/a\u003e, under \u003ca href=\"http://www.openstreetmap.org/copyright\"\u003eODbL\u003c/a\u003e.",
-                        "detectRetina": false,
-                        "maxNativeZoom": 18,
-                        "maxZoom": 18,
-                        "minZoom": 0,
-                        "noWrap": false,
-                        "opacity": 1,
-                        "subdomains": "abc",
-                        "tms": false
-                    }
-                ).addTo(map_seoul);
-                var storeName = "{{ name }}".replace(/&#39;/gi, '"')
-                // console.log(storeName)
-                var storeLat = "{{ lat }}".replace(/&#39;/gi, '')
-                var storeLon = "{{ lng }}".replace(/&#39;/gi, '')
-                storeName = JSON.parse(storeName)
-                storeLat = JSON.parse(storeLat)
-                storeLon = JSON.parse(storeLon)
-                // console.log(storeName)
-                for (var i = 0; i < storeName.length; i++) {
-                    // console.log(storeLat[i], storeLon[i], storeName[i])
-                    var marker_store_id = L.marker([storeLat[i], storeLon[i]], {}).addTo(map_seoul);
-                    var popup_store_id = L.popup({
-                        "maxWidth": "100%"
-                    });
-                    var html_store_id = $(
-                        `<div <div onclick="location.href='http://127.0.0.1:8000/analysis/${storeLat[i]}/${storeLon[i]}/${genre}'"  id='${storeName[i]}' style="width: 100.0%; height: 100.0%;">${storeName[i]}</div>`
-                    )[0];
-                    popup_store_id.setContent(html_store_id);
-                    marker_store_id.bindPopup(popup_store_id);
-                }
-            </script>
-
             {% endblock content_content %}
             <!-- content 내용 끝 -->
         </div>

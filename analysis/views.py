@@ -1,6 +1,5 @@
 from django.shortcuts import render, redirect
-from .models import Start_up, move_pop, stay_pop
-from reservation.models import Kitchen_info
+from .models import Kitchen_info, Start_up, Movepop, stay_pop, Sales
 import urllib.request
 import requests
 import pandas as pd
@@ -21,6 +20,9 @@ import sqlite3
 
 token = config('TOKEN')
 # 소상공인 API
+
+# def storecode(request):
+#     return render(request, 'analysis/test.html', {'storecode':storecode})
 
 
 def kitchen_map(request):
@@ -49,13 +51,21 @@ def kitchen_map2(request):
 # 맵 생성
 
 
+<<<<<<< HEAD
 def radius(request, lat, lng):
     token = config('TOKEN')
+=======
+def radius(request, lat, lng, genre):
+>>>>>>> df973e284d73a515a52e3d53cc8364cd30b6443a
     store_id = list()
     store_code = list()
     store_lon = list()
     store_lat = list()
+<<<<<<< HEAD
     street_name = list()
+=======
+    street_names = list()
+>>>>>>> df973e284d73a515a52e3d53cc8364cd30b6443a
     map = folium.Map(location=[lat,lng], zoom_start=14)
     for j in range(1, 30):
         url = f'http://apis.data.go.kr/B553077/api/open/sdsc/storeListInRadius?radius=500&cx={lng}&cy={lat}&ServiceKey={token}&type=json&indsLclsCd=Q&pageNo={j}'
@@ -70,7 +80,27 @@ def radius(request, lat, lng):
             store_code.append(res["body"]["items"][i]["indsMclsNm"])
             store_lon.append(res["body"]["items"][i]["lon"])
             store_lat.append(res["body"]["items"][i]["lat"])
+<<<<<<< HEAD
 
+=======
+            street_name = res["body"]["items"][i]["rdnm"]
+            street_name1 = street_name.split(' ')[2]
+            street_names.append(street_name1)
+            # street_name = res["body"]["items"][i]["rdnm"]
+            # street_name1 = street_name.split(' ')[2]
+            # street_names.append(street_name1)
+            
+            # street_names는 상주인구와 직장인구에 따른 현황을 보여주기 위함
+            # if street_names[i] in move_pop.all_total:
+            #     print('okay')
+            #     move_info = move_pop.objects.get(all_total = street_names[i])
+            #     stay_info = stay_pop.objects.get(rdnm = street_names[i])
+            #     print(move_info)
+            # else:
+            #     print('none')
+            #     print(move_info.all_total)
+            #     print(move_info[0])
+>>>>>>> df973e284d73a515a52e3d53cc8364cd30b6443a
 ######################################################################
         if Start_up:
             #area = res["body"]["items"][0]["signguCd"]
@@ -83,6 +113,7 @@ def radius(request, lat, lng):
             remain_term = start_up.remain_term 
             plma = start_up.plma
             danger = start_up.danger
+<<<<<<< HEAD
         # 구별 창업지수를 필터하기 위한 식
             # street_name = res["body"]["items"][i]["rdnm"]
             # street_name1 = area_name.split(' ')[2]
@@ -91,10 +122,44 @@ def radius(request, lat, lng):
             # print(street_name1)
             # move_info = move_pop.objects.get(rdnm = street_name1)
             # move_info
+=======
+        street_names_unique = pd.unique(street_names)
+        times2 = len(street_names_unique)
+        # conn = sqlite3.connect(':memory:')
+        # cur = conn.cursor()
+        for k in range(times2):
+            move_info = Movepop.objects.filter(rdnm = street_names_unique[k]).values()
+            stay_info = stay_pop.objects.filter(rdnm = street_names_unique[k]).values()
+            # move_info.rdnm
+            # move_info1 = Movepop.objects.get(id = 138)
+            # stay_info1 = stay_pop.objects.get(id = stay_info)
+            # move_info = Movepop.objects.filter(rdnm = street_names_unique[k]).first()
+            if move_info:
+                break
+    sales_info = Sales.objects.filter(rdnm = move_info[0]['rdnm'], store_code = genre).values()
+    sales_info = sales_info[0].values()
+    move_info = move_info[0].values()
+    stay_info = stay_info[0].values()
+    # sales_info = sales_info[0].values()
+    # print(sales_info)
+    print(sales_info)
+    print(move_info)
+    # print(stay_info)
+
+                # print(stay_info.men_total)
+        # print(stay_info1)
+            # if street_names_unique[k] in move_pop:
+            #     move_info = move_pop.objects.get(all_total = street_names_unique[k])
+            #     print(move_info)
+            #     stay_info = move_pop.objects.get(rdnm = street_names_unique[k])
+            #     print(stay_info)
+        # 구별 창업지수를 필터하기 위한 식
+>>>>>>> df973e284d73a515a52e3d53cc8364cd30b6443a
                 
         # 도로명에 따른 상주인구와 유동인구 정보를 분류
 
     #가게별 코드별 유니크 이름으로 분류하고, 해당 빈도 값을 만드는 식  
+<<<<<<< HEAD
     store_code_unique = pd.unique(store_code)
     piechart_value = Counter(store_code)
     pie_keys = list(piechart_value.keys())
@@ -103,6 +168,50 @@ def radius(request, lat, lng):
     print(pie_values)
     return render(request, 'analysis/radius.html',{'pie_keys':pie_keys,'pie_values':pie_values,'danger':danger,'lat':lat,'lng':lng,'store_id':store_id,'store_code':store_code,'store_lon':store_lon,'store_lat':store_lat, 'close':close, 'remain_term':remain_term, 'plma':plma })
    
+=======
+    # street_names_unique = pd.unique(street_names)
+    # times2 = len(street_names_unique)
+    # print(street_names_unique[1])
+    # for k in range(times2):
+    # print(street_names_unique)
+        # all_info = move_pop.all_total
+        # result = all_info.find(street_names_unique[k])
+        # move_info = move_pop.objects.get(all_total = street_names_unique[k])
+        # stay_info = stay_pop.objects.get(rdnm = street_names_unique[k])
+       
+        # if rsult == -1:
+    # print(result)     
+    # print(move_info)    
+    store_code_unique = pd.unique(store_code)
+    piechart_value = Counter(store_code)
+    pie_keys = list(piechart_value.keys())
+    # print(pie_keys)
+    pie_values = piechart_value.values()
+    # print(pie_values)
+    # 'move_info':move_info
+    return render(request, 'analysis/radius.html',{'sales_info':sales_info,'move_info':move_info,'stay_info':stay_info,'pie_keys':pie_keys,'pie_values':pie_values,'danger':danger,'lat':lat,'lng':lng,'store_id':store_id,'store_code':store_code,'store_lon':store_lon,'store_lat':store_lat, 'close':close, 'remain_term':remain_term, 'plma':plma })
+   
+def extra_radius(request, lat, lng):
+    token = config('TOKEN')
+    street_names = list()
+    for j in range(1, 30):
+        url = f'http://apis.data.go.kr/B553077/api/open/sdsc/storeListInRadius?radius=500&cx={lng}&cy={lat}&ServiceKey={token}&type=json&indsLclsCd=Q&pageNo={j}'
+        # url = f'http://apis.data.go.kr/B553077/api/open/sdsc/storeListInRadius?radius=500&cx={lng}&cy={lat}&ServiceKey={token}&type=json&indsLclsCd=Q&pageNo=2'
+        res = requests.get(url).json()
+        if res["header"]["resultCode"] != '00':
+            break
+        times = len(res["body"]["items"])
+        for i in range(times):
+            street_name = res["body"]["items"][i]["rdnm"]
+            street_name1 = street_name.split(' ')[2]
+            street_names.append(street_name1)
+        street_names_unique = pd.unique(street_names)
+        times2 = len(street_names_unique)
+        for k in range(times2):
+            move_info = move_pop.objects.get(all_total = street_names_unique[k])
+            stay_info = move_pop.objects.get(all_total = street_names_unique[k])
+    return render(request, 'analysis/radius.html',{})
+>>>>>>> df973e284d73a515a52e3d53cc8364cd30b6443a
 
 #     #상주인구의 지역코드와 info3가 같다면
 #         label = ['총상주인구', '남성_total', '여성_total', '20대_total', '30대_total', '40대_total', '50대_total', '60대_total', '남성_20', '남성_30', '남성_40', '남성_50', '남성_60', '여성_20', '여성_30', '여성_40', '여성_50', '여성_60']

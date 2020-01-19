@@ -1,6 +1,19 @@
     <!-- Menu -->
     <nav id="menu">
-        <h2>Menu</h2>
+        <h2>
+            <span>Menu</span>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            {% if user.is_authenticated %}
+            <span>
+                <form action="{% url 'accounts:logout' %}" method='POST' style='display:inline'>
+                        {% csrf_token %}
+                <input type="submit" class='primary' value="LOGOUT"/>
+                </form>
+            </span>
+            {% else %}
+            <span><a href="{% url 'accounts:login' %}">Login</a></span>
+            {% endif %}
+        </h2>
         <ul>
             <li><a href="http://127.0.0.1:8000/">Home</a></li>
             <li><a href="{% url 'reserve:index' %}">예약 관리</a></li>
