@@ -17,7 +17,7 @@ lazy-object-proxy==1.4.3
 libarchive-c==2.8
 MarkupSafe==1.1.1
 mccabe==0.6.1
-pipenv==2018.11.26
+pipenv==2022.1.8
 pycodestyle==2.5.0
 pycosat==0.6.3
 pycparser==2.19
